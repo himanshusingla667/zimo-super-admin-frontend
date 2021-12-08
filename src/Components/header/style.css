@@ -1,0 +1,20 @@
+
+.navbar-height{
+
+    height: 3.5rem;
+    
+    }
+    
+    .sidebar-btn{
+    
+    position: relative;
+    
+    left: 145px;
+    
+    }
+    .bi-person-fill::before {
+        color:#fff;
+    }
+    .dropdown-toggle::after{
+        color: #fff;
+    }

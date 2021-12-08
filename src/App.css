@@ -1,0 +1,64 @@
+/* login bg color style start */
+
+.background{
+
+  background: #ccc;
+  
+  }
+  
+  
+  
+  .text-danger{
+  
+  margin-left: 1.4rem;
+  
+  }
+  
+  
+  
+  .form_icon{
+  
+  position: absolute;
+  
+  top: 17px;
+  
+  right: 41px;
+  
+  cursor: pointer;
+  
+  }
+  
+  /* login style end */
+  
+  
+  
+  /* mainpage style */
+  
+  
+  
+  .content{
+  
+  margin-top: 75px;
+  
+  margin-left: 200px;
+  
+  height: 100vh;
+  
+  transition: 0.5s;
+  
+  }
+  
+  
+  
+  #check:checked ~ .content{
+  
+  margin-left: 60px;
+  
+  }
+  
+  #check{
+  
+  display: none;
+  
+  }
+  
