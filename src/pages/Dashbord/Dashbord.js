@@ -5,7 +5,7 @@ export default function Dashbord() {
         <div>
            
 
-            <h1>welcome to zimo admin panel</h1>
+            <h1>welconkknme to zimo admin panel</h1>
         </div>
     )
 }
