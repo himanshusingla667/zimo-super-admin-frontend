@@ -1,4 +1,4 @@
-import { Button, makeStyles, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
+import {  makeStyles, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
@@ -101,8 +101,8 @@ export default function Designationlist() {
                                     </TableCell>
 
                                     <TableCell>
-                                        <button className="btn btn-secondary" style={{ marginRight: 10 }} component={Link} to={`/editdesignation/${user._id}`}>Edit</button>
-                                        <button className="btn btn-secondary" onClick={() => { deleteUserData(user._id) }} >Delete</button>
+                                    <Link className="btn btn-success m-2" to={`/editdesignation/${user._id}`} ><i className="bi bi-pencil-square"></i></Link>
+                                        <button className="btn btn-danger" onClick={() => { deleteUserData(user._id) }} ><i className="bi bi-trash"></i></button>
                                     </TableCell>
                                 </TableRow>
                             ))

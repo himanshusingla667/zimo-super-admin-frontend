@@ -1,2 +1,2 @@
-# zimo-super-admin-frontend
-zimo super admin frontend
+# Zimo_admin
+This is an Zimo admin
