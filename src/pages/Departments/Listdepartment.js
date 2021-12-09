@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import * as Apis from '../../enviornment/Apis'
+// import * as Apis from '../../enviornment/enviornment'
+import * as Apis from '../../context/Api'
 import React, { useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Pagination from '@mui/material/Pagination';
 import Spinner from '../../Components/spinner/Spinner';
-
+import Info from '../../context/Info';
 
 
 export default function Listdepartment() {
@@ -14,7 +15,7 @@ export default function Listdepartment() {
     const [totalCount, settotalCount] = useState(0)
     const [list, setlist] = useState([]);
 
-    let Count = 5
+    let Count = 4
 
     useEffect(() => {
         getdata(1)
@@ -23,7 +24,7 @@ export default function Listdepartment() {
     const getdata = (page) => {
         let data = {
 
-            createdById: "61a0dab0777b848f7b22f811",
+            createdById: Info.userInfo._id,
             count: Count,
             page: page
 

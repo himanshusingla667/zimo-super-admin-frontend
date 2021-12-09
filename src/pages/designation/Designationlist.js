@@ -1,15 +1,21 @@
-import {  makeStyles, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
+import { makeStyles, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
-import * as Apis from '../../enviornment/Apis'
+// import * as Apis from '../../enviornment/enviornment'
+import * as Apis from '../../context/Api'
 import './designation.css';
 import Pagination from '@mui/material/Pagination';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
-
+import Info from '../../context/Info';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import Button from '@mui/material/Button';
 
 
 const useStyle = makeStyles({
@@ -27,15 +33,57 @@ const useStyle = makeStyles({
 })
 export default function Designationlist() {
 
-    
     const [users, setUsers] = useState([]);
-    //Pagination starts
-    // const [page, setPage] = useState(1);
-    const [totalCount, settotalCount]=useState([]);
-    let Count= 4
+    //
+    const [sortOrder, setsortOrder] = useState("asc")
+    const [deletId, setdeletId] = useState('')
+    const [open, setOpen] = useState(false);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const sorting = (col) => {
+        if (sortOrder === "asc") {
+            const sorted = [...users].sort((a, b) =>
+                a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
+            );
+            setUsers(sorted);
+            setsortOrder("dsc")
+        }
+        if (sortOrder === "dsc") {
+            const sorted = [...users].sort((a, b) =>
+                a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
+            );
+            setUsers(sorted);
+            setsortOrder("asc")
+        }
+    }
+    //
 
-    
+
+
+
+
+   
+
+    //seacrh bar start
+    const [searchTerm, setsearchTerm] = useState("")
+    //seacrh bar ends
+
+    // user key srtarts
+    // let userId = JSON.parse(localStorage.getItem('userinfo'))._id
+    // user key ends
+
+    //Pagination starts 
+    const [totalCount, settotalCount] = useState([]);
+    let Count = 4
     // pagination ends
+
+    const classes = useStyle();
+
+
     useEffect(
         () => {
             getData(1)
@@ -44,13 +92,18 @@ export default function Designationlist() {
     )
     const getData = (page) => {
         let data = {
-            createdById: "61a0dab0777b848f7b22f811",
-            page:page,
-            count:Count
+            createdById: Info.userInfo._id,
+
+            searchText: searchTerm,
+            page: page,
+            count: Count
+
         }
         axios.post(Apis.deslist(), data).then((response) => {
             setUsers(response.data.data)
             settotalCount(response.data.totalCount)
+            console.log(response.data.totalCount)
+            
         })
 
     };
@@ -59,26 +112,44 @@ export default function Designationlist() {
         axios.post(Apis.delDes(), {
             _id: _id
         }).then((response) => {
-            getData()
+            getData();
             toast(response.data.message);
+            setOpen(false);
         })
 
     }
 
     return (
-        <div>
-            
+        <div className={classes.table}>
+            <input type="text" placeholder="Search..." className="form-control mb-2"
+                onChange={(e) => {
+                    setsearchTerm(e.target.value)
+                }}
+            ></input><span>
+                <button type="submit" className="btn btn-primary m-1" onClick={() => {
+                    if (searchTerm) {
+                        getData(1)
+                    }
+
+                }} >Search</button></span>
+            <span>
+                <button className="btn btn-danger m-2" onClick={()=>{
+                    setsearchTerm(" ")
+                        getData(1)
+                    
+                }}> clear</button>
+            </span> <br />
             <Link to="/adddesignation" className="btn btn-primary marginleft">Add New Designation</Link>
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <Table aria-label="simple table" >
                     <TableHead>
                         <TableRow >
 
                             <TableCell>S.No</TableCell>
 
-                            <TableCell>department</TableCell>
+                            <TableCell onClick={() => sorting("title")}>department<i className="bi bi-chevron-down"></i></TableCell>
 
-                            <TableCell>Designation</TableCell>
+                            <TableCell onClick={() => sorting("title")}>Designation <i className="bi bi-chevron-down"></i></TableCell>
 
                             <TableCell>Action</TableCell>
 
@@ -93,33 +164,55 @@ export default function Designationlist() {
                                         {index + 1}
                                     </TableCell>
                                     <TableCell>
-                                     {user.departmentTitle}
+                                        {user.departmentTitle}
                                     </TableCell>
 
                                     <TableCell>
-                                        {user.designationTitle}
+                                        {user.title}
                                     </TableCell>
 
                                     <TableCell>
-                                    <Link className="btn btn-success m-2" to={`/editdesignation/${user._id}`} ><i className="bi bi-pencil-square"></i></Link>
-                                        <button className="btn btn-danger" onClick={() => { deleteUserData(user._id) }} ><i className="bi bi-trash"></i></button>
+                                        <Link className="btn btn-success m-2" to={`/editdesignation/${user._id}`} ><i className="bi bi-pencil-square"></i></Link>
+                                        <button className="btn btn-danger" onClick={() => {
+                                            setdeletId(user._id)
+                                            handleClickOpen()
+                                        }}>
+                                            <i className="bi bi-trash"></i>
+                                        </button>
+                                        <Dialog
+                                            open={open}
+                                            onClose={handleClose}
+                                            aria-labelledby="draggable-dialog-title"
+                                        >
+                                            <DialogContent>
+                                                <DialogContentText>
+                                                    Are you sure to delete this information..?
+                                                </DialogContentText>
+                                            </DialogContent>
+                                            <DialogActions>
+                                                <Button autoFocus onClick={handleClose}>
+                                                    No
+                                                </Button>
+                                                <Button onClick={() => { deleteUserData(deletId) }}>Yes </Button>
+                                            </DialogActions>
+                                        </Dialog>
                                     </TableCell>
                                 </TableRow>
                             ))
-                            
+
                         }
                     </TableBody>
-                    
+
                 </Table>
-                    <div className=" d-flex justify-content-center m-4">
-                    <Pagination 
-                    count={Math.ceil(totalCount/Count)}
-                    
-                    onChange={(event,value)=>getData(value)}
-                    shape="rounded"
-                    
+                <div className=" d-flex justify-content-center m-4">
+                    <Pagination
+                        count={Math.ceil(totalCount / Count)}
+
+                        onChange={(event, value) => getData(value)}
+                        shape="rounded"
+
                     />
-                    </div>
+                </div>
             </TableContainer>
             <ToastContainer />
         </div>

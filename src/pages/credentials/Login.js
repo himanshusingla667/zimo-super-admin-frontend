@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import validation from '../../enviornment/validation'
+import validation from '../../context/validation'
 import * as Yup from 'yup'
 import { Link, useHistory } from 'react-router-dom'
 import { useFormik } from 'formik';
@@ -7,14 +7,15 @@ import TextField from '@mui/material/TextField';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
-import * as Apis from '../../enviornment/Apis'
+// import * as Apis from '../../enviornment/enviornment'
+import * as Apis from '../../context/Api'
 
 export default function Login() {
     let history = useHistory();
 
 
     const [state, setstate] = useState('password')
-
+    
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -40,6 +41,7 @@ export default function Login() {
                 console.log("response", response)
                 toast(response.data.message);
                 localStorage.setItem('userinfo', JSON.stringify(response.data.data));
+                
                 history.push("/");
             } else {
                 toast(response.data.message);
@@ -97,7 +99,7 @@ export default function Login() {
                                                     setstate('text')
 
                                                 }
-                                            }}>setItem
+                                            }}>
 
                                                 {
                                                     state === 'password' ? <i className="bi bi-eye-fill" ></i> : <i className="bi bi-eye-slash-fill"></i>

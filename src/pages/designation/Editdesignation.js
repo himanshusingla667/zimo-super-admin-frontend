@@ -179,8 +179,10 @@ import { TextField } from '@material-ui/core'
 import * as yup from 'yup'
 import { useHistory, useParams } from 'react-router-dom'
 import axios from 'axios'
-import * as Apis from '../../enviornment/Apis'
+// import * as Apis from '../../enviornment/enviornment'
 import MenuItem from '@mui/material/MenuItem';
+import * as Apis from '../../context/Api'
+import Info from '../../context/Info';
 
 import Select from '@mui/material/Select';
 
@@ -205,9 +207,9 @@ export default function Editdesignation() {
     )
     const getData = () => {
         let data = {
-            createdById: "61a0dab0777b848f7b22f811",
+            createdById: Info.userInfo._id,
         }
-        axios.post(Apis.deplist(), data).then((response) => {
+        axios.post(Apis.departmentlist(), data).then((response) => {
             setdep(response.data.data)
             
         })
@@ -249,7 +251,7 @@ export default function Editdesignation() {
     const formik = useFormik({
         initialValues: {
             title: "",
-            createdById: "61a0dab0777b848f7b22f811",
+            createdById: Info.userInfo._id,
             
             departmentId: ""
 
@@ -325,7 +327,7 @@ export default function Editdesignation() {
                         )
                     }
                 </Select>
-
+                {formik.values.departmentId}
 
                 <div><br />
                     <button type="submit" className="btn btn-danger">Update Designation</button>
