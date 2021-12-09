@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import * as Apis from '../../enviornment/Apis'
+// import * as Apis from '../../enviornment/enviornment'
+import * as Apis from '../../context/Api'
 import React, { useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Pagination from '@mui/material/Pagination';
 import Spinner from '../../Components/spinner/Spinner';
+<<<<<<< HEAD
 // delete mui button
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -13,6 +15,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import Button from '@mui/material/Button';
 // delete mui button close
+=======
+import Info from '../../context/Info';
+
+>>>>>>> ee662094b15ac1eb934d057d9c38675b8c9e2476
 
 export default function Listdepartment() {
     const [spinner, setspinner] = useState(true)
@@ -26,12 +32,16 @@ export default function Listdepartment() {
         setOpen(true);
     };
 
+<<<<<<< HEAD
     const handleClose = () => {
         setOpen(false);
     };
 
     let key = JSON.parse(localStorage.getItem('userinfo'))._id
     let Count = 5
+=======
+    let Count = 4
+>>>>>>> ee662094b15ac1eb934d057d9c38675b8c9e2476
 
     const sorting = (col) => {
         if (sortOrder === "asc") {
@@ -57,7 +67,11 @@ export default function Listdepartment() {
     const getdata = (page) => {
         let data = {
 
+<<<<<<< HEAD
             createdById: key,
+=======
+            createdById: Info.userInfo._id,
+>>>>>>> ee662094b15ac1eb934d057d9c38675b8c9e2476
             count: Count,
             page: page
 

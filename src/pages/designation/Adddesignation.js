@@ -6,13 +6,19 @@ import { TextField } from '@material-ui/core'
 import * as yup from 'yup'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
-import * as Apis from '../../enviornment/Apis'
+// import * as Apis from '../../enviornment/enviornment'
+import * as Apis from '../../context/Api'
 import MenuItem from '@mui/material/MenuItem';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
+import Info from '../../context/Info';
+
+
+
+
 export default function Adddesignation() {
 
 
@@ -24,9 +30,9 @@ export default function Adddesignation() {
     )
     const getData = () => {
         let data = {
-            createdById: "61a0dab0777b848f7b22f811",
+            createdById:Info.userInfo._id,
         }
-        axios.post(Apis.deplist(), data).then((response) => {
+        axios.post(Apis.departmentlist(), data).then((response) => {
             setdep(response.data.data)
         })
 
@@ -55,7 +61,7 @@ export default function Adddesignation() {
     const formik = useFormik({
         initialValues: {
             title: "",
-            createdById: "61a0dab0777b848f7b22f811",
+            createdById:Info.userInfo._id,
             departmentId: ""
 
 
