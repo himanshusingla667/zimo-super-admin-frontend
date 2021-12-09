@@ -47,7 +47,7 @@ export default function Sidebar() {
                                 </li>
                                 <li>
                                     <Link to="/department/list" className="nav-link px-3">
-                                        <span className="me-2"><i className="bi bi-diagram-3"></i></span>
+                                        <span className="me-2"><i className="bi bi-list-nested"></i></span>
                                         <span>Department</span>
                                     </Link>
                                 </li>

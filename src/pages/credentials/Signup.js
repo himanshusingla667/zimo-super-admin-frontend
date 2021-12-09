@@ -43,7 +43,7 @@ export default function Signup() {
 
         axios.post(Apis.login(), values).then((response) => {
             if (response.data.code === 200) {
-                const [state, setstate] = useState('password')
+                // const [state, setstate] = useState('password')
                 toast(response.data.message);
                 // history.push('/Header')
             }

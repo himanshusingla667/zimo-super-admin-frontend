@@ -67,7 +67,6 @@ export default function Designationlist() {
 
     return (
         <div>
-            
             <Link to="/adddesignation" className="btn btn-primary marginleft">Add New Designation</Link>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">

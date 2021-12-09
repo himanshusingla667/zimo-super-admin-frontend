@@ -97,7 +97,7 @@ export default function Login() {
                                                     setstate('text')
 
                                                 }
-                                            }}>setItem
+                                            }}>
 
                                                 {
                                                     state === 'password' ? <i className="bi bi-eye-fill" ></i> : <i className="bi bi-eye-slash-fill"></i>
