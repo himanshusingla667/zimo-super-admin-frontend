@@ -120,29 +120,7 @@ export default function Designationlist() {
     }
 
     return (
-<<<<<<< HEAD
         <div>
-=======
-        <div className={classes.table}>
-            <input type="text" placeholder="Search..." className="form-control mb-2"
-                onChange={(e) => {
-                    setsearchTerm(e.target.value)
-                }}
-            ></input><span>
-                <button type="submit" className="btn btn-primary m-1" onClick={() => {
-                    if (searchTerm) {
-                        getData(1)
-                    }
-
-                }} >Search</button></span>
-            <span>
-                <button className="btn btn-danger m-2" onClick={()=>{
-                    setsearchTerm(" ")
-                        getData(1)
-                    
-                }}> clear</button>
-            </span> <br />
->>>>>>> ee662094b15ac1eb934d057d9c38675b8c9e2476
             <Link to="/adddesignation" className="btn btn-primary marginleft">Add New Designation</Link>
             <TableContainer component={Paper}>
                 <Table aria-label="simple table" >
