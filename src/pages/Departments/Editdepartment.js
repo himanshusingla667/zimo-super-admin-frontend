@@ -9,7 +9,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import * as Yup from 'yup'
 import Spinner from '../../Components/spinner/Spinner';
-import Info from '../../context/Info';
+import Info from '../../context/Info'
 
 
 export default function Editdepartment() {
