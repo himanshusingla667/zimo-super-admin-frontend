@@ -7,6 +7,7 @@ import Designationlist from '../pages/designation/Designationlist';
 import Adddesignation from '../pages/designation/Adddesignation';
 import Editdesignation from '../pages/designation/Editdesignation';
 import Error404 from '../pages/errorPage/Error404';
+import Deldes from '../pages/designation/Deldes';
 
 // import Editdepartment from "../pages/Departments/Editdepartment";
 const Editdepartment = lazy(() => import('../pages/Departments/Editdepartment'));
@@ -29,6 +30,7 @@ export default function Sidebarcontent() {
                 <Route exact path="/Designationlist"> <Designationlist /></Route>
                 <Route exact path="/adddesignation"> <Adddesignation /></Route>
                 <Route exact path="/editdesignation/:id" component={Editdesignation} />
+                <Route exact path="/DesDelList"><Deldes></Deldes></Route>
                     {/* department Route path */}
                 <Route exact path="/department/add"><Addform/></Route>
                 <Route exact path="/department/list"><Listdepartment /></Route>

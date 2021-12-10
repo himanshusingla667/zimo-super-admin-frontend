@@ -1,9 +1,13 @@
 import { Link, useHistory } from 'react-router-dom'
 import React, { useEffect } from 'react'
 import './//style.css'
-
+import Info from '../../context/Info';
 
 export default function Header() {
+  
+
+
+  let name= Info.userInfo.firstName
 
   useEffect(() => {
     document.getElementById("mySidenav").style.width = "14.66666667%";
@@ -49,7 +53,7 @@ export default function Header() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             </ul>
-
+            <text className='navbar-brand ps-3'>Welcome {name}</text>
             <li className="nav-item dropdown">
               <Link className="nav-link dropdown-toggle mb-4" to="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i className="bi bi-person-fill"></i>
