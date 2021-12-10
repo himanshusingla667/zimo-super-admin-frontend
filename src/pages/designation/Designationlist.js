@@ -121,7 +121,7 @@ export default function Designationlist() {
 
     return (
         <div className={classes.table}>
-            <input type="text" placeholder="Search..." className="form-control mb-2"
+            <input type="text" placeholder="Search..." value={searchTerm}className="form-control mb-2"
                 onChange={(e) => {
                     setsearchTerm(e.target.value)
                 }}
@@ -134,8 +134,11 @@ export default function Designationlist() {
                 }} >Search</button></span>
             <span>
                 <button className="btn btn-danger m-2" onClick={()=>{
-                    setsearchTerm(" ")
+                   
+                   
                         getData(1)
+                        setsearchTerm("")
+                        
                     
                 }}> clear</button>
             </span> <br />
