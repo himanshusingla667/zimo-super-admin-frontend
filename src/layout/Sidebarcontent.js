@@ -34,6 +34,7 @@ export default function Sidebarcontent() {
                 <Route exact path="/department/list"><Listdepartment /></Route>
                 <Route exact path="/department/edit/:id"><Editdepartment/></Route>
 
+               
                 <Route component={Error404} />
             </Switch>
         </div>

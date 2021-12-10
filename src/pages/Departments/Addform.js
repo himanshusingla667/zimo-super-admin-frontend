@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { TextField } from '@mui/material'
 import { useFormik } from 'formik'
 import validation from '../../context/validation'
@@ -68,9 +68,9 @@ export default function Addform() {
                             ) : null}
                             <div>
 
-                                <button type="submit" className="btn btn-danger" >Add</button>
+                                <button type="submit" className="btn btn-success">Add</button>
 
-                                <Link to="/department/list" className="btn btn-success m-3">Back</Link>
+                                <Link to="/department/list" className="btn btn-danger m-3">Back</Link>
                             </div>
                         </form>
                     </div>
