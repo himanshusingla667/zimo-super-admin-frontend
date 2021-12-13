@@ -34,11 +34,12 @@ const useStyle = makeStyles({
 export default function Designationlist() {
 
     const [users, setUsers] = useState([]);
-    const [active, setactive]=useState('false')
+    const [active, setactive] = useState('false')
     //
     const [sortOrder, setsortOrder] = useState("asc")
     const [deletId, setdeletId] = useState('')
     const [open, setOpen] = useState(false);
+    const [searchTerm, setsearchTerm] = useState(" ")
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -66,11 +67,7 @@ export default function Designationlist() {
 
 
 
-
-
-
     //seacrh bar start
-    const [searchTerm, setsearchTerm] = useState("")
     //seacrh bar ends
 
 
@@ -85,11 +82,13 @@ export default function Designationlist() {
     useEffect(
         () => {
             getData(1)
-
+            setsearchTerm()
         }, [active]
     )
     
-    const getData = (page) => {
+
+
+    const getData = (page ) => {
         let data = {
             createdById: Info.userInfo._id,
 
@@ -99,7 +98,7 @@ export default function Designationlist() {
             isDeleted: active,
 
         }
-        
+
         axios.post(Apis.deslist(), data).then((response) => {
             setUsers(response.data.data)
             settotalCount(response.data.totalCount)
@@ -113,7 +112,7 @@ export default function Designationlist() {
         axios.post(Apis.delDes(), {
             _id: _id
         }).then((response) => {
-            getData();
+            getData(1);
             toast(response.data.message);
             setOpen(false);
         })
@@ -122,42 +121,43 @@ export default function Designationlist() {
 
     return (
         <div className={classes.table}>
-            <input type="text" placeholder="Search..." value={searchTerm} className="form-control mb-2"
+            <form>
+            <input type="text" placeholder="Search..." value={searchTerm || ''} className="form-control mb-2"
                 onChange={(e) => {
                     setsearchTerm(e.target.value)
                 }}
-            ></input><span>
-                <button type="submit" className="btn btn-primary m-1" onClick={() => {
+            /></form><span>
+                <button  className="btn btn-primary m-1" onClick={() => {
                     if (searchTerm) {
                         getData(1)
                     }
 
                 }} >Search</button></span>
             <span>
-                <button className="btn btn-danger m-2" onClick={() => {
-                    setsearchTerm("")
-                    getData(1)
+                <button className="btn btn-danger m-2" onClick={ () => {
+                        setsearchTerm('')
+                         getData(1)
 
                 }}> clear</button>
-            </span><span><Link to="/DesDelList" className='btn btn-secondary'>Trash</Link></span> 
+            </span><span><Link to="/DesDelList" className='btn btn-secondary'>Trash</Link></span>
             <span>
                 <div className="dropdown side" >
                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         Dropdown button
                     </button>
                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a className="dropdown-item"  onClick={()=>{
+                        <li><a className="dropdown-item" onClick={() => {
                             setactive("true")
                             // getData(0)
                         }} >deleted</a></li>
-                        <li><a className="dropdown-item"  onClick={()=>{
+                        <li><a className="dropdown-item" onClick={() => {
                             setactive("false")
                             // getData(0)
                         }}>not deleted</a></li>
                         <li><a className="dropdown-item" >Something else here</a></li>
                     </ul>
                 </div>
-            </span><br/>
+            </span><br />
             <Link to="/adddesignation" className="btn btn-primary marginleft">Add New Designation</Link>
             <TableContainer component={Paper}>
                 <Table aria-label="simple table" >
