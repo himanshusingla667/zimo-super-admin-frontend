@@ -16,6 +16,7 @@ export default function Deldes() {
     const getData = () => {
         let data = {
             createdById: Info.userInfo._id,
+            
             isDeleted: "true"
 
         };
@@ -23,6 +24,7 @@ export default function Deldes() {
         axios.post(Apis.deslist(), data).then((response) => {
             setdes(response.data.data)
             console.log(response.data.data);
+            
         })
     }
 

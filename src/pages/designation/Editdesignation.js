@@ -189,7 +189,7 @@ import Select from '@mui/material/Select';
 
 export default function Editdesignation() {
     const [dep, setdep] = useState([]);
-    const [detail, setdetail] = useState([]);
+    
 
     const {id} = useParams();
     
@@ -221,7 +221,7 @@ export default function Editdesignation() {
             _id:id,
         }
         axios.post(Apis.detailDes(), data).then((response) => {
-            setdetail(response.data.data)
+            
             toast(response.data.message);
             
             for(let item in formik.initialValues){

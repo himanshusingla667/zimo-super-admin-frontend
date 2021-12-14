@@ -33,6 +33,7 @@ export default function Editdepartment() {
             setspinner(false)   
             for (let item in formik.initialValues) {
                 formik.setFieldValue(item, response.data.data[item])
+                console.log(response.data.data);
                 // toast(response.data.message);
             }
         })

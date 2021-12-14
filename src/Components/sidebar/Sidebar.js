@@ -52,9 +52,9 @@ export default function Sidebar() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="#" className="nav-link px-3">
+                                    <Link to="/SkillsList" className="nav-link px-3">
                                         <span className="me-2"> <i className="bi bi-boxes"></i></span>
-                                        <span> Nestid link3</span>
+                                        <span> Skills</span>
                                     </Link>
                                 </li>
                             </ul>

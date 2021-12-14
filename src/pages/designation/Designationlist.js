@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
-// import * as Apis from '../../enviornment/enviornment'
+
 import * as Apis from '../../context/Api'
 import './designation.css';
 import Pagination from '@mui/material/Pagination';
@@ -34,11 +34,17 @@ const useStyle = makeStyles({
 export default function Designationlist() {
 
     const [users, setUsers] = useState([]);
-    const [active, setactive]=useState('false')
+    const [active, setactive] = useState('false')
     //
     const [sortOrder, setsortOrder] = useState("asc")
     const [deletId, setdeletId] = useState('')
     const [open, setOpen] = useState(false);
+    const [srpage, setsrpage] = useState(1);
+
+
+
+
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -88,7 +94,7 @@ export default function Designationlist() {
 
         }, [active]
     )
-    
+
     const getData = (page) => {
         let data = {
             createdById: Info.userInfo._id,
@@ -99,11 +105,13 @@ export default function Designationlist() {
             isDeleted: active,
 
         }
-        
+
         axios.post(Apis.deslist(), data).then((response) => {
             setUsers(response.data.data)
             settotalCount(response.data.totalCount)
             console.log(response.data.totalCount)
+            setsrpage(page)
+
 
         })
 
@@ -121,7 +129,9 @@ export default function Designationlist() {
     }
 
     return (
+
         <div className={classes.table}>
+
             <input type="text" placeholder="Search..." value={searchTerm} className="form-control mb-2"
                 onChange={(e) => {
                     setsearchTerm(e.target.value)
@@ -135,29 +145,30 @@ export default function Designationlist() {
                 }} >Search</button></span>
             <span>
                 <button className="btn btn-danger m-2" onClick={() => {
-                    setsearchTerm("")
+                    setsearchTerm('')
                     getData(1)
 
                 }}> clear</button>
-            </span><span><Link to="/DesDelList" className='btn btn-secondary'>Trash</Link></span> 
+            </span><span><Link to="/DesDelList" className='btn btn-secondary'>Trash</Link></span>
             <span>
                 <div className="dropdown side" >
                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown button
+                        {active}
                     </button>
                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a className="dropdown-item"  onClick={()=>{
+                        <li><Link className="dropdown-item" onClick={() => {
                             setactive("true")
                             // getData(0)
-                        }} >deleted</a></li>
-                        <li><a className="dropdown-item"  onClick={()=>{
+                        }} >deleted</Link></li>
+                        <li><Link className="dropdown-item" onClick={() => {
                             setactive("false")
                             // getData(0)
-                        }}>not deleted</a></li>
-                        <li><a className="dropdown-item" >Something else here</a></li>
+                        }}>not deleted</Link></li>
+                        <li><Link className="dropdown-item" >Something else here</Link></li>
                     </ul>
                 </div>
-            </span><br/>
+            </span><br />
+
             <Link to="/adddesignation" className="btn btn-primary marginleft">Add New Designation</Link>
             <TableContainer component={Paper}>
                 <Table aria-label="simple table" >
@@ -180,16 +191,15 @@ export default function Designationlist() {
                                 <TableRow key={index}>
 
                                     <TableCell>
-                                        {index + 1}
+                                        {Count * (srpage - 1) + index + 1}
+
+                                    </TableCell>
+                                    <TableCell>
+                                        {user.title}
                                     </TableCell>
                                     <TableCell>
                                         {user.departmentTitle}
                                     </TableCell>
-
-                                    <TableCell>
-                                        {user.title}
-                                    </TableCell>
-
                                     <TableCell>
                                         <Link className="btn btn-success m-2" to={`/editdesignation/${user._id}`} ><i className="bi bi-pencil-square"></i></Link>
                                         <button className="btn btn-danger" onClick={() => {
@@ -223,18 +233,24 @@ export default function Designationlist() {
                     </TableBody>
 
                 </Table>
+
+
                 <div className=" d-flex justify-content-center m-4">
                     <Pagination
                         count={Math.ceil(totalCount / Count)}
 
-                        onChange={(event, value) => getData(value)}
+                        onChange={(event, value) => {
+                            getData(value)
+                        }}
                         shape="rounded"
 
                     />
                 </div>
             </TableContainer>
             <ToastContainer />
+
         </div>
+
 
     )
 }

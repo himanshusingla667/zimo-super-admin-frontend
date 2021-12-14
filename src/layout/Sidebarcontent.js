@@ -8,6 +8,9 @@ import Adddesignation from '../pages/designation/Adddesignation';
 import Editdesignation from '../pages/designation/Editdesignation';
 import Error404 from '../pages/errorPage/Error404';
 import Deldes from '../pages/designation/Deldes';
+import SkillsList from '../pages/skills/SkillsList';
+import AddSkils from '../pages/skills/AddSkils';
+import EditSkills from '../pages/skills/EditSkills';
 
 // import Editdepartment from "../pages/Departments/Editdepartment";
 const Editdepartment = lazy(() => import('../pages/Departments/Editdepartment'));
@@ -36,6 +39,9 @@ export default function Sidebarcontent() {
                 <Route exact path="/department/list"><Listdepartment /></Route>
                 <Route exact path="/department/edit/:id"><Editdepartment/></Route>
 
+                <Route exact path="/SkillsList"><SkillsList/></Route>
+                <Route exact path="/addSkilss"><AddSkils/></Route>
+                <Route exact path="/editSkills/:id"><EditSkills/></Route>
                
                 <Route component={Error404} />
             </Switch>
