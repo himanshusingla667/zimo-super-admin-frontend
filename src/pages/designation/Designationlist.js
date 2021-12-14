@@ -39,7 +39,7 @@ export default function Designationlist() {
     const [sortOrder, setsortOrder] = useState("asc")
     const [deletId, setdeletId] = useState('')
     const [open, setOpen] = useState(false);
-    const [searchTerm, setsearchTerm] = useState(" ")
+    const [searchTerm, setsearchTerm] = useState("")
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -62,11 +62,6 @@ export default function Designationlist() {
             setsortOrder("asc")
         }
     }
-    //
-
-
-
-
     //seacrh bar start
     //seacrh bar ends
 
@@ -86,8 +81,6 @@ export default function Designationlist() {
         }, [active]
     )
     
-
-
     const getData = (page ) => {
         let data = {
             createdById: Info.userInfo._id,
@@ -122,7 +115,7 @@ export default function Designationlist() {
     return (
         <div className={classes.table}>
             <form>
-            <input type="text" placeholder="Search..." value={searchTerm || ''} className="form-control mb-2"
+            <input type="text" placeholder="Search..." value={searchTerm } className="form-control mb-2"
                 onChange={(e) => {
                     setsearchTerm(e.target.value)
                 }}
@@ -135,7 +128,7 @@ export default function Designationlist() {
                 }} >Search</button></span>
             <span>
                 <button className="btn btn-danger m-2" onClick={ () => {
-                        setsearchTerm('')
+                        setsearchTerm("")
                          getData(1)
 
                 }}> clear</button>
