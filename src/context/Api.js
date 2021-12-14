@@ -5,7 +5,7 @@ import enviornment from "../enviornment/enviornment";
 // credential apis
 export let login = () => enviornment.baseUrl + '/api/v1/user/login'
 export let signUp = () => enviornment.baseUrl + '/api/v1/user/register'
-
+export let logout = () => enviornment.baseUrl + '/api/v1/user/logout'
 
 
 //designation api

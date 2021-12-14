@@ -22,6 +22,7 @@ export default function Listdepartment() {
     const [sortOrder, setsortOrder] = useState("asc")
     const [deletId, setdeletId] = useState('')
     const [open, setOpen] = useState(false);
+    
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -50,6 +51,8 @@ export default function Listdepartment() {
             setsortOrder("asc")
         }
     }
+ 
+   
 
     useEffect(() => {
         getdata(1)
@@ -117,7 +120,7 @@ export default function Listdepartment() {
                             list.map((item, index) => (
 
                                 <tr key={item._id}>
-                                    <th scope="row">{`${index + 1}`}</th>
+                                    <th scope="row">{index + 1}</th>
                                     <td>{item.title} </td>
                                     <td>
                                         <Link className="btn btn-success m-2" to={`/department/edit/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>

@@ -327,7 +327,7 @@ export default function Editdesignation() {
                         )
                     }
                 </Select>
-                {formik.values.departmentId}
+                
 
                 <div><br />
                     <button type="submit" className="btn btn-danger">Update Designation</button>

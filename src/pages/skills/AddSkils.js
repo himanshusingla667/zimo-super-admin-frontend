@@ -21,8 +21,8 @@ export default function AddSkils() {
         initialValues: {
             title: "",
             createdById: Info.userInfo._id,
-            userId:Info.userInfo.userId,
-            token: Info.userInfo.x_access_token
+            userId:Info.userInfo._id,
+            // token: Info.userInfo.jwtToken
         },
         
         validationSchema: yup.object({
@@ -30,7 +30,7 @@ export default function AddSkils() {
         }),
         
         onSubmit: (values) => {
-            axios.post(Apis.skillsAdd(), values).then((response) => {
+            axios.post(Apis.skillsAdd(), values, {headers: {'x-access-token': Info.token}}).then((response) => {
                 if (response.data.code === 200) {
                     toast(response.data.message);
                     history.push('/SkillsList')

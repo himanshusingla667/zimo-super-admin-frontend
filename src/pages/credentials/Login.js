@@ -41,6 +41,7 @@ export default function Login() {
                 console.log("response", response)
                 toast(response.data.message);
                 localStorage.setItem('userinfo', JSON.stringify(response.data.data));
+                localStorage.setItem('token', JSON.stringify(response.data.jwtToken));
                 
                 history.push("/");
             } else {
