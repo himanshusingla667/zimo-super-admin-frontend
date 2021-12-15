@@ -1,5 +1,4 @@
-let userInfo;
-export default userInfo={
-    userInfo: JSON.parse(localStorage.getItem('userinfo'))
-    
+export default {
+    userInfo: JSON.parse(localStorage.getItem('userinfo')),    
+    token: JSON.parse(localStorage.getItem('token'))    
 }

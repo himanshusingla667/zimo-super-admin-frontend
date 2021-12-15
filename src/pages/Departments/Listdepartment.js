@@ -90,8 +90,6 @@ export default function Listdepartment() {
     }
 
     return (
-
-
         <div>
             {
                 spinner && <Spinner />
@@ -152,9 +150,7 @@ export default function Listdepartment() {
                                         </Dialog>
                                     </td>
                                 </tr>
-
                             )
-
                             )}
 
                     </tbody>
@@ -168,7 +164,6 @@ export default function Listdepartment() {
                         onChange={(event, value) => {
                             getdata(value)
                         }}
-
                     />
                 </div>
             </div>

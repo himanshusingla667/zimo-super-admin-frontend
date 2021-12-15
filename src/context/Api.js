@@ -5,7 +5,7 @@ import enviornment from "../enviornment/enviornment";
 // credential apis
 export let login = () => enviornment.baseUrl + '/api/v1/user/login'
 export let signUp = () => enviornment.baseUrl + '/api/v1/user/register'
-
+export let logout = () => enviornment.baseUrl + '/api/v1/user/logout'
 
 
 //designation api
@@ -23,3 +23,19 @@ export let departmentadd = () =>  enviornment.baseUrl+'/api/v1/department/add'
 export let departmentlist = () => enviornment.baseUrl+'/api/v1/department/list'
 export let departmentDelet = () =>  enviornment.baseUrl+'/api/v1/department/delete'
 export let departmentdetails = () =>  enviornment.baseUrl+'/api/v1/department/details'
+
+
+
+// skills api
+export let skillsList = () => enviornment.baseUrl + '/api/v1/skills/list'  
+export let skillsAdd = () => enviornment.baseUrl + '/api/v1/skills/add'
+export let skillsDelete = () => enviornment.baseUrl + '/api/v1/skills/delete'
+export let skillsEdit = () => enviornment.baseUrl + '/api/v1/skills/edit'
+export let skillsDetails = () => enviornment.baseUrl + '/api/v1/skills/details'
+
+
+// Techknowlogy api
+export let tecAdd = () => enviornment.baseUrl + '/api/v1/technology/add'
+export let tecList = () => enviornment.baseUrl + '/api/v1/technology/list'
+export let tecEdit = () => enviornment.baseUrl + '/api/v1/technology/edit'
+export let tecDelete = () => enviornment.baseUrl + '/api/v1/technology/delete'

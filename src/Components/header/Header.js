@@ -2,10 +2,15 @@ import { Link, useHistory } from 'react-router-dom'
 import React, { useEffect } from 'react'
 import './//style.css'
 import Info from '../../context/Info';
+import * as Apis from '../../context/Api'
+import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Header() {
   
 
+
+  console.log('Info ', Info);
 
   let name= Info.userInfo.firstName
 
@@ -18,9 +23,21 @@ export default function Header() {
 
   let history = useHistory()
   let logout = () => {
-    localStorage.clear()
-    history.push('/Login')
-
+    let data= {
+      userId:Info.userInfo._id
+    }
+    axios.post(Apis.logout(), data, {headers: {'x-access-token': Info.token}}).then((response) => {
+      if (response.data.code === 200) {
+          
+          history.push('/Login')
+          localStorage.clear()
+      }
+      else {
+          toast(response.data.message);
+      }
+  })
+    
+    
   }
 
   let clicked = false
@@ -66,6 +83,7 @@ export default function Header() {
             </li>
           </div>
         </div>
+        <ToastContainer />
       </nav>
     </div>
   )
