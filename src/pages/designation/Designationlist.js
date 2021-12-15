@@ -34,13 +34,26 @@ const useStyle = makeStyles({
 export default function Designationlist() {
 
     const [users, setUsers] = useState([]);
-    const [active, setactive] = useState('false')
+    const [status, setstatus] = useState("true")
+    const [delStatus, setdelStatus] = useState('false')
     //
     const [sortOrder, setsortOrder] = useState("asc")
     const [deletId, setdeletId] = useState('')
     const [open, setOpen] = useState(false);
     const [srpage, setsrpage] = useState(1);
 
+    
+  
+
+    //seacrh bar start
+    const [searchTerm, setsearchTerm] = useState("")
+    //seacrh bar ends
+
+
+    //Pagination starts 
+    const [totalCount, settotalCount] = useState([]);
+    let Count = 4
+    // pagination ends
 
 
 
@@ -67,25 +80,74 @@ export default function Designationlist() {
             setsortOrder("asc")
         }
     }
-    //seacrh bar start
-    const [searchTerm, setsearchTerm] = useState("")
-    //seacrh bar ends
+    //
 
 
-    //Pagination starts 
-    const [totalCount, settotalCount] = useState([]);
-    let Count = 4
-    // pagination ends
+
+
+
+
+
+
 
     const classes = useStyle();
 
 
+   
     useEffect(
         () => {
-            getData(1)
-            setsearchTerm()
-        }, [active]
+
+                getData(1)
+           
+        }, []
     )
+
+    useEffect(
+        () => {
+            if(status === 'true' ){
+               
+
+                getData(1)
+            }
+           
+        }, [status]
+    )
+    useEffect(
+        () => {
+            if(delStatus === 'false'){
+               
+
+                getData(1)
+            }
+           
+        }, [delStatus]
+    )
+    useEffect(
+        () => {
+            if(searchTerm === ''){
+                
+
+                getData(1)
+            }
+           
+        }, [searchTerm]
+    )
+
+
+
+    // const getStatus=()=>{
+    //     let statusData={
+    //         _id: Info.userInfo._id,
+    //         isActive: true
+    //     }
+
+    //     axios.post(Apis.desStatus(),statusData).then((response)=>{
+    //         console.log("cfdd",response.data.data);
+    //     })
+    // }
+
+
+
 
     const getData = (page) => {
         let data = {
@@ -94,14 +156,15 @@ export default function Designationlist() {
             searchText: searchTerm,
             page: page,
             count: Count,
-            isDeleted: active,
+            isActive: status,
+            isDeleted: delStatus
 
         }
 
         axios.post(Apis.deslist(), data).then((response) => {
             setUsers(response.data.data)
             settotalCount(response.data.totalCount)
-            console.log(response.data.totalCount)
+
             setsrpage(page)
 
 
@@ -123,27 +186,72 @@ export default function Designationlist() {
     return (
 
         <div className={classes.table}>
-            <form>
-            <input type="text" placeholder="Search..." value={searchTerm } className="form-control mb-2"
-                onChange={(e) => {
-                    setsearchTerm(e.target.value)
-                }}
-            /></form><span>
-                <button  className="btn btn-primary m-1" onClick={() => {
-                    if (searchTerm) {
-                        getData(1)
-                    }
+            <div>
+                <div className='row'>
+                    <div className="col-4">
+                        <input type="text" placeholder="Search..." value={searchTerm} className="form-control mb-2"
+                            onChange={(e) => {
+                                setsearchTerm(e.target.value)
+                            }}
+                        ></input>
+                    </div>
+                    <div className="col-3">
+                    
+                        <select onChange={(e) => {
+                            console.log(e.target.value)
+                            setstatus(e.target.value)
+                        }} class="form-select" aria-label="Default select example">
+                            {/* <option selected>Active status</option> */}
 
-                }} >Search</button></span>
-            <span>
-                <button className="btn btn-danger m-2" onClick={() => {
-                    setsearchTerm('')
-                    getData(1)
+                            {<option value="true"
+                            // onInputChange={() => {
+                            // setstatus("true")
+                            // console.log('status');
+                            // // getData(0)
+                            // }}
+                            >Active</option>}
+                            <option value="false"
+                            // 
+                            >
+                                In active</option>
+                        </select>
+                    </div>
+                    <div className="col-3">
+                        <select onChange={(e) => {
+                            setdelStatus(e.target.value)
+                        }} class="form-select" aria-label="Default select example">
+                            <option selected>Delete Status</option>
 
-                }}> clear</button>
-            </span><span><Link to="/DesDelList" className='btn btn-secondary'>Trash</Link></span>
+                            <option value="true">Deleted</option>
+                            <option value="false">Not Deleted</option>
+                        </select>
+                    </div>
+                    <div className='col-1'>
+                        <span>
+                            <button type="submit" className="btn btn-primary " onClick={() => {
+                                if (searchTerm || status || delStatus) {
+                                    console.log(status);
+                                    getData(1)
+                                }
+
+                            }} >Search</button></span>
+                    </div>
+                    <div className='col-1'>
+                        <span>
+                            <button className="btn btn-danger " onClick={() => {
+                                setsearchTerm('')
+                                setdelStatus('false')
+                                setstatus('true')
+                               
+                            }}> clear</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
             <span>
-                <div className="dropdown side" >
+                {/* <div className="dropdown side" >
                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         {active}
                     </button>
@@ -158,9 +266,11 @@ export default function Designationlist() {
                         }}>not deleted</Link></li>
                         <li><Link className="dropdown-item" >Something else here</Link></li>
                     </ul>
-                </div>
+                </div> */}
+
             </span><br />
-            <Link to="/adddesignation" className="btn btn-primary marginleft">Add New Designation</Link>
+
+            <Link to="/adddesignation" className=" btn btn-primary ">Add New Designation</Link>
             <TableContainer component={Paper}>
                 <Table aria-label="simple table" >
                     <TableHead>
@@ -186,10 +296,10 @@ export default function Designationlist() {
 
                                     </TableCell>
                                     <TableCell>
-                                        {user.title}
+                                        {user.departmentTitle}
                                     </TableCell>
                                     <TableCell>
-                                        {user.departmentTitle}
+                                        {user.title}
                                     </TableCell>
                                     <TableCell>
                                         <Link className="btn btn-success m-2" to={`/editdesignation/${user._id}`} ><i className="bi bi-pencil-square"></i></Link>

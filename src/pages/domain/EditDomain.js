@@ -10,7 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
 import { useHistory, useParams } from 'react-router-dom'
 
-export default function EditSkils() {
+export default function EditDomain() {
     
     
     
@@ -30,7 +30,7 @@ export default function EditSkils() {
             _id: id,
             userId:Info.userInfo._id
         }
-        axios.post(Apis.skillsDetails(), data,  {headers: {'x-access-token': Info.token}}).then((response) => {
+        axios.post(Apis.domainDetails(), data,  {headers: {'x-access-token': Info.token}}).then((response) => {
                
              for (let item in formik.initialValues) {
                formik.setFieldValue(item, response.data.data[item])
@@ -47,27 +47,31 @@ export default function EditSkils() {
         initialValues: {
             title: "",
             createdById: Info.userInfo._id,
-            userId:Info.userInfo.userId,
+            userId:Info.userInfo._id,
+            description: ""
             
         },
 
         validationSchema: yup.object({
-            title: yup.string().max(30, "Must be 30 characters or less").required("Skill is required")
+            title: yup.string().max(30, "Must be 30 characters or less").required("Skill is required"),
+            description: yup.string().min(10, "Must be 10 characters or more").required("Description is required")
         }),
         
         onSubmit: (values) => {
             
                 let Data={
                     _id:id,
-                    title:values.title
+                    title:values.title,
+                    description:values.description,
+                    userId:Info.userInfo._id,
                 }
             
-            axios.post(Apis.skillsEdit(), Data,  {headers: {'x-access-token': Info.token}}).then((response) => {
+            axios.post(Apis.domainEdit(), Data,  {headers: {'x-access-token': Info.token}}).then((response) => {
                 
 
                 if (response.data.code === 200) {
                     toast(response.data.message);
-                    history.push('/SkillsList')
+                    history.push('/domainList')
 
 
                 }
@@ -82,7 +86,7 @@ export default function EditSkils() {
 
     return (
         <div className='container'>
-            <h1>Skills </h1>
+            <h1>Domain </h1>
             <form onSubmit={formik.handleSubmit}>
                 <TextField
                     label='Enter skill'
@@ -91,15 +95,31 @@ export default function EditSkils() {
                     onBlur={formik.handleBlur}
                     value={formik.values.title}
                     type='text'
-                />
+                /><br/>
                 {formik.touched.title && formik.errors.title ? (
                     <span className='text_error_message text-danger' >{formik.errors.title}</span>
+                ) : null}
+                <br/>
+                <TextField
+                    id="outlined-multiline-static"
+                    label="Multiline"
+                    multiline
+                    rows={4}
+                    variant="outlined"
+                    name='description'
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.description}
+                    type='text'
+                /><br/>
+                {formik.touched.description && formik.errors.description ? (
+                    <span className='text_error_message text-danger' >{formik.errors.description}</span>
                 ) : null}
                 <div>
 
                     <button type="submit" className="btn btn-success">Edit</button>
 
-                    <Link to="/SkillsList" className="btn btn-danger m-3">Back</Link>
+                    <Link to="/domainList" className="btn btn-danger m-3">Back</Link>
                 </div>
             </form>
             <ToastContainer />

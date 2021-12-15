@@ -14,9 +14,9 @@ import Button from '@mui/material/Button';
 import { ToastContainer, toast } from 'react-toastify';
 
 
-export default function SkillsList() {
+export default function DomainList() {
 
-    const [skills, setskills] = useState([]);
+    const [domain, setdomain] = useState([]);
     const [totalcount, settotalcount] = useState([]);
     const [pageNbr, setpageNbr]=useState()
     const [deletId, setdeletId] = useState('')
@@ -26,10 +26,10 @@ export default function SkillsList() {
 
     const handleClickOpen = () => {
         setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
+     };
+     const handleClose = () => {
+         setOpen(false);
+     };
 
     let count = 5;
 
@@ -48,8 +48,8 @@ export default function SkillsList() {
             
         };
 
-        axios.post(Apis.skillsList(), Data).then((response) => {
-            setskills(response.data.data);
+        axios.post(Apis.domainList(), Data).then((response) => {
+            setdomain(response.data.data);
             settotalcount(response.data.totalCount);
             setpageNbr(page)
             
@@ -57,26 +57,26 @@ export default function SkillsList() {
     }
 
 
-    const deleteData = (_id) => {
-        let delData={
-            _id: _id,
-            userId:Info.userInfo._id
+     const deleteData = (_id) => {
+         let delData={
+             _id: _id,
+             userId:Info.userInfo._id
 
-        }
-        axios.post(Apis.skillsDelete(),delData, {headers: {'x-access-token': Info.token}}).then((response) => {
-            getData();
-            toast(response.data.message);
-            setOpen(false);
-        })
+         }
+         axios.post(Apis.domainDelete(),delData, {headers: {'x-access-token': Info.token}}).then((response) => {
+             getData();
+             toast(response.data.message);
+             setOpen(false);
+         })
 
-    }
+     }
 
     return (
         <div className='container'>
             <div>
                 <div className="text-left d-flex justify-content-end">
-                    <Link className="btn btn-warning " to="/addSkilss">
-                        <h4>Add Skills</h4>
+                    <Link className="btn btn-warning " to="/addDomain">
+                        <h4>Add Domain</h4>
                     </Link>
                 </div>
             </div>
@@ -88,7 +88,10 @@ export default function SkillsList() {
                                 S.no
                             </TableCell>
                             <TableCell>
-                                Skills
+                                Domain
+                            </TableCell>
+                            <TableCell>
+                            Description
                             </TableCell>
                             <TableCell>
                                 Action
@@ -97,7 +100,7 @@ export default function SkillsList() {
                     </TableHead>
                     <TableBody>
                         {
-                            skills.map((item, index) => (
+                            domain.map((item, index) => (
                                 <TableRow key={index}>
                                     <TableCell>
                                     {count * (pageNbr - 1) + index + 1}
@@ -106,7 +109,10 @@ export default function SkillsList() {
                                         {item.title}
                                     </TableCell>
                                     <TableCell>
-                                    <Link className="btn btn-success m-2" to={`/editSkills/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
+                                        {item.description}
+                                    </TableCell>
+                                    <TableCell>
+                                     <Link className="btn btn-success m-2" to={`/domainEdit/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
                                         <button className="btn btn-danger" onClick={() => {
                                             setdeletId(item._id)
                                             handleClickOpen()
@@ -131,7 +137,7 @@ export default function SkillsList() {
                                                     Yes
                                                 </Button>
                                             </DialogActions>
-                                        </Dialog>
+                                        </Dialog> 
                                     </TableCell>
                                 </TableRow>
                             ))
