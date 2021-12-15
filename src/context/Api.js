@@ -13,8 +13,8 @@ export let adddes = () => enviornment.baseUrl + '/api/v1/designation/add'
 export let deslist = () => enviornment.baseUrl + '/api/v1/designation/list'
 export let editdes = () => enviornment.baseUrl + '/api/v1/designation/update'
 export let detailDes = () => enviornment.baseUrl + '/api/v1/designation/details'
-export let delDes = () =>enviornment.baseUrl + '/api/v1/designation/delete'
-
+export let delDes = () =>enviornment.baseUrl + '/api/v1/designation/delete' 
+export let desStatus = () =>enviornment.baseUrl + '/api/v1/designation/changeStatus'
 
 
 // Department api
@@ -32,3 +32,12 @@ export let skillsAdd = () => enviornment.baseUrl + '/api/v1/skills/add'
 export let skillsDelete = () => enviornment.baseUrl + '/api/v1/skills/delete'
 export let skillsEdit = () => enviornment.baseUrl + '/api/v1/skills/edit'
 export let skillsDetails = () => enviornment.baseUrl + '/api/v1/skills/details'
+
+
+
+// domain api
+export let domainAdd = () => enviornment.baseUrl + '/api/v1/domain/addDomain'
+export let domainList = () => enviornment.baseUrl + '/api/v1/domain/list' 
+export let domainDelete = () => enviornment.baseUrl + '/api/v1/domain/delete'
+export let domainEdit = () => enviornment.baseUrl + '/api/v1/domain/edit'
+export let domainDetails = () => enviornment.baseUrl + '/api/v1/domain/details'

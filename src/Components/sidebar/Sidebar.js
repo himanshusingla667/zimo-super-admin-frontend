@@ -57,6 +57,12 @@ export default function Sidebar() {
                                         <span> Skills</span>
                                     </Link>
                                 </li>
+                                <li>
+                                    <Link to="/domainList" className="nav-link px-3">
+                                        <span className="me-2"> <i className="bi bi-boxes"></i></span>
+                                        <span> Domain</span>
+                                    </Link>
+                                </li>
                             </ul>
                         </div>
                     </div>
