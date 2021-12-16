@@ -123,7 +123,7 @@ export default function Techknowlogylist() {
         }
             axios.post(Apis.tecDelete(),tecdel,{headers : {'x-access-token':Info.token}}).then((response) => {
                 toast(response.data.message);
-                getData()
+                getData(1)
                 setOpen(false);
             })
     

@@ -70,5 +70,7 @@ export let stateList = () => enviornment.baseUrl + '/api/v1/state/list'
 export let StateEdit = ()=> enviornment.baseUrl + '/api/v1/state/updateData'
 export let StateDetails= ()=> enviornment.baseUrl + '/api/v1/state/details'
 export let StateDelete= ()=> enviornment.baseUrl + '/api/v1/state/delete'
+export let StateToggle= ()=> enviornment.baseUrl + '/api/v1/state/changeStatus'
+
 
 

@@ -27,6 +27,7 @@ export default function Statelist() {
     const [delStatus, setdelStatus] = useState('false')
     const [status, setstatus] = useState("true")
     const [searchTerm, setsearchTerm] = useState("")
+    const [state, setstate] = useState(true)
 
 
 
@@ -116,6 +117,11 @@ export default function Statelist() {
         })
 
     };
+    const setToggle = () => {
+        let avtiveToggle = {
+
+        }
+    }
 
     const deleteTitle = (_id) => {
         let statedel = {
@@ -198,64 +204,73 @@ export default function Statelist() {
                         </div>
                     </div>
                 </div>
-                { stateList.length>0 ? (
+                {stateList.length > 0 ? (
 
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th scope="col" >S.no</th>
-                            <th scope="col" onClick={() => sorting("title")}>State<i className="bi bi-chevron-down"></i></th>
-                            <th scope="col" onClick={() => sorting("title")}>Country<i className="bi bi-chevron-down"></i></th>
-                            <th scope="col" >Actions</th>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" >S.no</th>
+                                <th scope="col" onClick={() => sorting("title")}>State<i className="bi bi-chevron-down"></i></th>
+                                <th scope="col" onClick={() => sorting("title")}>Country<i className="bi bi-chevron-down"></i></th>
+                                <th scope="col" >Actions</th>
+                                <th scope="col" >Status</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            stateList.map((item, index) => (
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                stateList.map((item, index) => (
 
-                                <tr key={item._id}>
-                                    <th scope="row">{Count * (pageNbr - 1) + index + 1}</th>
-                                    <td className="col-2">{item.title} </td>
-                                    <td className="col-2">{item.countryTitle} </td>
+                                    <tr key={item._id}>
+                                        <th scope="row">{Count * (pageNbr - 1) + index + 1}</th>
+                                        <td className="col-2">{item.title} </td>
+                                        <td className="col-2">{item.countryTitle} </td>
 
 
-                                    <td >
-                                        <Link className="btn btn-success m-2" to={`/StateEdit/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
+                                        <td >
+                                            <Link className="btn btn-success m-2" to={`/StateEdit/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
 
-                                        <button className="btn btn-danger" onClick={() => {
-                                            setdeletId(item._id)
-                                            handleClickOpen()
-                                        }}>
-                                            <i className="bi bi-trash"></i>
-                                        </button>
-                                        <Dialog
-                                            open={open}
-                                            onClose={handleClose}
-                                            aria-labelledby="draggable-dialog-title"
-                                        >
+                                            <button className="btn btn-danger" onClick={() => {
+                                                setdeletId(item._id)
+                                                handleClickOpen()
+                                            }}>
+                                                <i className="bi bi-trash"></i>
+                                            </button>
+                                            <Dialog
+                                                open={open}
+                                                onClose={handleClose}
+                                                aria-labelledby="draggable-dialog-title"
+                                            >
 
-                                            <DialogContent>
-                                                <DialogContentText>
-                                                    Are you sure to delete this information..?
-                                                </DialogContentText>
-                                            </DialogContent>
-                                            <DialogActions>
-                                                <Button autoFocus onClick={handleClose}>
-                                                    No
-                                                </Button>
-                                                <Button onClick={() => { deleteTitle(deletId) }}>Yes </Button>
+                                                <DialogContent>
+                                                    <DialogContentText>
+                                                        Are you sure to delete this information..?
+                                                    </DialogContentText>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button autoFocus onClick={handleClose}>
+                                                        No
+                                                    </Button>
+                                                    <Button onClick={() => { deleteTitle(deletId) }}>Yes </Button>
 
-                                            </DialogActions>
-                                        </Dialog>
-                                    </td>
-                                </tr>
-                            )
-                            )}
+                                                </DialogActions>
+                                            </Dialog>
+                                        </td>
+                                        <td>
+                                            <div className="form-check form-switch">
+                                                <input className="form-check-input " type="checkbox" id="flexSwitchCheckchecked"  checked
+                                                onClick={()=>{
 
-                    </tbody>
-                </table>
-                ): <div className='text-center mt-5'>No record found</div>}
+                                                }}/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                                )}
+
+                        </tbody>
+                    </table>
+                ) : <div className='text-center mt-5'>No record found</div>}
 
                 <div>
                     {totalCount > Count ? (
