@@ -34,6 +34,13 @@ export let skillsEdit = () => enviornment.baseUrl + '/api/v1/skills/edit'
 export let skillsDetails = () => enviornment.baseUrl + '/api/v1/skills/details'
 
 
+// Techknowlogy api
+export let tecAdd = () => enviornment.baseUrl + '/api/v1/technology/add'
+export let tecList = () => enviornment.baseUrl + '/api/v1/technology/list'
+export let tecEdit = () => enviornment.baseUrl + '/api/v1/technology/edit'
+export let tecDelete = () => enviornment.baseUrl + '/api/v1/technology/delete'
+export let tecDetails = () => enviornment.baseUrl + '/api/v1/technology/details'
+
 
 // domain api
 export let domainAdd = () => enviornment.baseUrl + '/api/v1/domain/addDomain'
@@ -56,3 +63,12 @@ export let countryDelete = () => enviornment.baseUrl + '/api/v1/country/delete'
 export let countryAdd = () => enviornment.baseUrl + '/api/v1/country/add' 
 export let countryEdit = () => enviornment.baseUrl + '/api/v1/country/edit'
 export let countryDetails = () => enviornment.baseUrl + '/api/v1/country/details'
+ 
+// State api
+export let stateAdd = () => enviornment.baseUrl + '/api/v1/state/createState'
+export let stateList = () => enviornment.baseUrl + '/api/v1/state/list' 
+export let StateEdit = ()=> enviornment.baseUrl + '/api/v1/state/updateData'
+export let StateDetails= ()=> enviornment.baseUrl + '/api/v1/state/details'
+export let StateDelete= ()=> enviornment.baseUrl + '/api/v1/state/delete'
+
+

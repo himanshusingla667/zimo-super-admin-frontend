@@ -20,10 +20,22 @@ import CountryList from '../pages/country/CountryList';
 import AddCountry from '../pages/country/AddCountry';
 import EditCountry from '../pages/country/EditCountry';
 
+
 // import Editdepartment from "../pages/Departments/Editdepartment";
 const Editdepartment = lazy(() => import('../pages/Departments/Editdepartment'));
 const Listdepartment = lazy(() => import('../pages/Departments/Listdepartment'));
 const Addform = lazy(() => import('../pages/Departments/Addform'));
+
+// Techknowlog 
+const  Techknowlogyadd= lazy(() => import('../pages/ Technology/Techknowlogyadd'));
+const Techknowlogylist =lazy(()=>import('../pages/ Technology/Techknowlogylist'))
+const TechknowlogyEdit =lazy(()=>import('../pages/ Technology/TechknowlogyEdit'))
+
+// state
+const Addstate =lazy(()=>import('../pages/States/Addstate'))
+const Statelist =lazy(()=>import('../pages/States/Statelist'))
+const StateEdit =lazy(()=>import('../pages/States/StateEdit'))
+
 
 export default function Sidebarcontent() {
     return (
@@ -51,6 +63,12 @@ export default function Sidebarcontent() {
                 <Route exact path="/addSkilss"><AddSkils/></Route>
                 <Route exact path="/editSkills/:id"><EditSkills/></Route>
 
+                {/* techknowlogy Route path */}
+                <Route exact path="/Techknowlogyadd"> <Techknowlogyadd/> </Route>
+                <Route exact path="/Techknowlogylist"> <Techknowlogylist/> </Route>
+                <Route exact path="/TechknowlogyEdit/:id"> <TechknowlogyEdit/> </Route>
+
+               
                 <Route exact path="/addDomain"><AddDomain/></Route>
                 <Route exact path="/domainList"><DomainList/></Route>
                 <Route exact path="/domainEdit/:id"><EditDomain/></Route>
@@ -62,6 +80,10 @@ export default function Sidebarcontent() {
                 <Route exact path="/countryList"><CountryList/></Route>
                 <Route exact path="/addCountry"><AddCountry/></Route>
                 <Route exact path="/editCountry/:id"><EditCountry/></Route>
+                {/* state Route path */}
+                <Route exact path="/Addstate"> <Addstate/> </Route>
+                <Route exact path="/Statelist"> <Statelist/> </Route>
+                <Route exact path="/StateEdit/:id"> <StateEdit/> </Route>
 
                 <Route component={Error404} />
             </Switch>

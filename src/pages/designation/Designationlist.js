@@ -177,7 +177,7 @@ export default function Designationlist() {
         axios.post(Apis.delDes(), {
             _id: _id
         }).then((response) => {
-            getData();
+            getData(1);
             toast(response.data.message);
             setOpen(false);
         })
