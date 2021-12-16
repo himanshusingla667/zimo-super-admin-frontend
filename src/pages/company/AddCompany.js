@@ -26,7 +26,7 @@ export default function AddCompany() {
             email: '',
             phoneNumber: '',
             website: '',
-            address: '',
+            headOfficeAdd: '',
             dateOfFoundation: '',
             createdById: Info.userInfo._id,
             userId: Info.userInfo._id,
@@ -48,7 +48,7 @@ export default function AddCompany() {
                 .matches(validation.pattern.EMAIL, 'Invalid')
                 .matches(validation.pattern.BACKSPACE, 'Invalid'),
 
-            address: Yup.string().min(5, 'enter valid address').required('Address is required')
+            headOfficeAdd: Yup.string().min(5, 'enter valid address').required('Address is required')
                 .matches(validation.pattern.DESCRIPTION, 'invalid')
                 .matches(validation.pattern.BACKSPACE, 'invalid'),
             
@@ -118,7 +118,7 @@ export default function AddCompany() {
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.phoneNumber}
-                                type='number' className='d-flex m-4' />
+                                type='text' className='d-flex m-4' />
                             {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
                                 <span className='text_error_message text-danger' >{formik.errors.phoneNumber}</span>
                             ) : null}
@@ -138,20 +138,20 @@ export default function AddCompany() {
                         <div className='col-md-6'>
                             <TextField
                                 label='Address'
-                                name="address"
+                                name="headOfficeAdd"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 multiline
                                 rows={4}
-                                value={formik.values.address}
+                                value={formik.values.headOfficeAdd}
                                 type='text' className='d-flex m-4' />
-                            {formik.touched.address && formik.errors.address ? (
-                                <span className='text_error_message text-danger' >{formik.errors.address}</span>
+                            {formik.touched.headOfficeAdd && formik.errors.headOfficeAdd ? (
+                                <span className='text_error_message text-danger' >{formik.errors.headOfficeAdd}</span>
                             ) : null}
                         </div>
                         <div className='col-md-6'>
                             <TextField
-                                label='Date dd/mm/yyyy'
+                                label='Date yyyy/mm/dd'
                                 name="dateOfFoundation"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}

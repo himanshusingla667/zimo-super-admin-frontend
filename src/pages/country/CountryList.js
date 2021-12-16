@@ -26,6 +26,7 @@ export default function CountryList() {
     const [delStatus, setdelStatus] = useState('false')
     const [searchTerm, setsearchTerm] = useState("")
     const [spinner, setspinner] = useState(true)
+    const [toggle,settoggle]=useState(true)
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -57,7 +58,7 @@ export default function CountryList() {
 
     useEffect(() => {
         getData(1)
-        }, []
+    }, []
     )
 
 
@@ -119,6 +120,19 @@ export default function CountryList() {
         })
     }
 
+    const activeStatus = (_id) => {
+        let activeData = {
+            _id: _id,
+            userId: Info.userInfo._id,
+            isActive:toggle
+            
+        }
+        axios.post(Apis.countryToggle(), activeData, { headers: { 'x-access-token': Info.token } }).then((response) => {
+            getData(1);
+            toast(response.data.message);
+            
+        })
+    }
 
     const deleteData = (_id) => {
         let delData = {
@@ -127,7 +141,7 @@ export default function CountryList() {
 
         }
         axios.post(Apis.countryDelete(), delData, { headers: { 'x-access-token': Info.token } }).then((response) => {
-            getData();
+            getData(1);
             toast(response.data.message);
             setOpen(false);
         })
@@ -135,7 +149,7 @@ export default function CountryList() {
     }
 
     return (
-        
+
         <div className='container'>
             {
                 spinner && <Spinner />
@@ -228,6 +242,9 @@ export default function CountryList() {
                             <TableCell>
                                 Action
                             </TableCell>
+                            <TableCell>
+                                Status
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -268,23 +285,40 @@ export default function CountryList() {
                                             </DialogActions>
                                         </Dialog>
                                     </TableCell>
+                                    <TableCell>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" 
+                                            onClick={()=>{
+                                                activeStatus(item._id)
+                                                if(toggle===false){
+                                                settoggle(true)
+                                                }
+                                                else if(toggle===true){
+                                                    settoggle(false)
+                                                }
+
+                                            }}
+                                            />
+                                                
+                                        </div>
+                                    </TableCell>
                                 </TableRow>
                             ))
                         }
                     </TableBody>
                 </Table>
                 {
-                    totalcount>count ?(
-                <div className=" d-flex justify-content-center m-4">
-                    <Pagination
-                        count={Math.ceil(totalcount / count)}
-                        onChange={(event, value) => {
-                            getData(value)
-                        }}
-                        shape="rounded"
-                    />
-                </div>
-                    ): null}
+                    totalcount > count ? (
+                        <div className=" d-flex justify-content-center m-4">
+                            <Pagination
+                                count={Math.ceil(totalcount / count)}
+                                onChange={(event, value) => {
+                                    getData(value)
+                                }}
+                                shape="rounded"
+                            />
+                        </div>
+                    ) : null}
             </TableContainer>
             <ToastContainer />
         </div>
