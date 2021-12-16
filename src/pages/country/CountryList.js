@@ -14,10 +14,9 @@ import Button from '@mui/material/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import Spinner from '../../Components/spinner/Spinner';
 
+export default function CountryList() {
 
-export default function DomainList() {
-
-    const [domain, setdomain] = useState([]);
+    const [country, setcountry] = useState([]);
     const [totalcount, settotalcount] = useState([]);
     const [pageNbr, setpageNbr] = useState()
     const [deletId, setdeletId] = useState('')
@@ -27,7 +26,6 @@ export default function DomainList() {
     const [delStatus, setdelStatus] = useState('false')
     const [searchTerm, setsearchTerm] = useState("")
     const [spinner, setspinner] = useState(true)
-
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -39,29 +37,30 @@ export default function DomainList() {
 
     const sorting = (col) => {
         if (sortOrder === "asc") {
-            const sorted = [...domain].sort((a, b) =>
+            const sorted = [...country].sort((a, b) =>
                 a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
             );
-            setdomain(sorted);
+            setcountry(sorted);
             setsortOrder("dsc")
         }
         if (sortOrder === "dsc") {
-            const sorted = [...domain].sort((a, b) =>
+            const sorted = [...country].sort((a, b) =>
                 a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
             );
-            setdomain(sorted);
+            setcountry(sorted);
             setsortOrder("asc")
         }
     }
-
 
     let count = 5;
 
 
     useEffect(() => {
         getData(1)
-    }
-        , [])
+        }, []
+    )
+
+
 
     useEffect(
         () => {
@@ -101,7 +100,6 @@ export default function DomainList() {
 
     const getData = (page) => {
         let Data = {
-
             createdById: Info.userInfo._id,
             count: count,
             page: page,
@@ -111,11 +109,12 @@ export default function DomainList() {
 
         };
 
-        axios.post(Apis.domainList(), Data).then((response) => {
-            setdomain(response.data.data);
+        axios.post(Apis.countryList(), Data).then((response) => {
+            setcountry(response.data.data);
             settotalcount(response.data.totalCount);
             setpageNbr(page);
             setspinner(false)
+
 
         })
     }
@@ -127,7 +126,7 @@ export default function DomainList() {
             userId: Info.userInfo._id
 
         }
-        axios.post(Apis.domainDelete(), delData, { headers: { 'x-access-token': Info.token } }).then((response) => {
+        axios.post(Apis.countryDelete(), delData, { headers: { 'x-access-token': Info.token } }).then((response) => {
             getData();
             toast(response.data.message);
             setOpen(false);
@@ -136,12 +135,12 @@ export default function DomainList() {
     }
 
     return (
+        
         <div className='container'>
-             {
+            {
                 spinner && <Spinner />
             }
-
-<div>
+            <div>
                 <div className='row'>
                     <div className="col-4">
                         <input type="text" placeholder="Search..." value={searchTerm} className="form-control mb-2"
@@ -205,10 +204,14 @@ export default function DomainList() {
             </div>
 
 
+
+
+
+
             <div>
                 <div className="text-left d-flex justify-content-end">
-                    <Link className="btn btn-warning " to="/addDomain">
-                        <h4>Add Domain</h4>
+                    <Link className="btn btn-warning " to="/addCountry">
+                        <h4>Add Country</h4>
                     </Link>
                 </div>
             </div>
@@ -220,10 +223,7 @@ export default function DomainList() {
                                 S.no
                             </TableCell>
                             <TableCell onClick={() => sorting("title")}>
-                                Domain<i className="bi bi-chevron-down"></i>
-                            </TableCell>
-                            <TableCell onClick={() => sorting("title")}>
-                                Description<i className="bi bi-chevron-down"></i>
+                                Country<i className="bi bi-chevron-down"></i>
                             </TableCell>
                             <TableCell>
                                 Action
@@ -232,7 +232,7 @@ export default function DomainList() {
                     </TableHead>
                     <TableBody>
                         {
-                            domain.map((item, index) => (
+                            country.map((item, index) => (
                                 <TableRow key={index}>
                                     <TableCell>
                                         {count * (pageNbr - 1) + index + 1}
@@ -241,10 +241,7 @@ export default function DomainList() {
                                         {item.title}
                                     </TableCell>
                                     <TableCell>
-                                        {item.description}
-                                    </TableCell>
-                                    <TableCell>
-                                        <Link className="btn btn-success m-2" to={`/domainEdit/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
+                                        <Link className="btn btn-success m-2" to={`/editCountry/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
                                         <button className="btn btn-danger" onClick={() => {
                                             setdeletId(item._id)
                                             handleClickOpen()
@@ -287,7 +284,7 @@ export default function DomainList() {
                         shape="rounded"
                     />
                 </div>
-                ): null}
+                    ): null}
             </TableContainer>
             <ToastContainer />
         </div>

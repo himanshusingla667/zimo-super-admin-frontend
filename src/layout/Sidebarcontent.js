@@ -14,6 +14,11 @@ import EditSkills from '../pages/skills/EditSkills';
 import AddDomain from '../pages/domain/AddDomain';
 import DomainList from '../pages/domain/DomainList';
 import EditDomain from '../pages/domain/EditDomain';
+import CompanyList from '../pages/company/CompanyList';
+import AddCompany from '../pages/company/AddCompany';
+import CountryList from '../pages/country/CountryList';
+import AddCountry from '../pages/country/AddCountry';
+import EditCountry from '../pages/country/EditCountry';
 
 // import Editdepartment from "../pages/Departments/Editdepartment";
 const Editdepartment = lazy(() => import('../pages/Departments/Editdepartment'));
@@ -49,6 +54,14 @@ export default function Sidebarcontent() {
                 <Route exact path="/addDomain"><AddDomain/></Route>
                 <Route exact path="/domainList"><DomainList/></Route>
                 <Route exact path="/domainEdit/:id"><EditDomain/></Route>
+
+                <Route exact path="/companyList"><CompanyList/></Route>
+                <Route exact path="/addCompany"><AddCompany/></Route>
+
+
+                <Route exact path="/countryList"><CountryList/></Route>
+                <Route exact path="/addCountry"><AddCountry/></Route>
+                <Route exact path="/editCountry/:id"><EditCountry/></Route>
 
                 <Route component={Error404} />
             </Switch>

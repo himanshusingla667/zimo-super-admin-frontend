@@ -20,8 +20,9 @@ export default function AddSkils() {
     const formik = useFormik({
         initialValues: {
             title: "",
-            createdById: Info.userInfo._id,
             userId:Info.userInfo._id,
+            createdById:Info.userInfo._id,
+            companyId:Info.userInfo.companyId
             // token: Info.userInfo.jwtToken
         },
         

@@ -41,13 +41,13 @@ export default function Sidebar() {
                             <ul className="navbar-nav ps-3">
                                 <li>
                                     <Link to="/Designationlist" className="nav-link px-3">
-                                        <span className="me-2"> <i className="bi bi-diagram-3"></i></span>
+                                        <span className="me-2">  <i className="bi bi-boxes"></i></span>
                                         <span> Desiganation</span>
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to="/department/list" className="nav-link px-3">
-                                        <span className="me-2"><i className="bi bi-list-nested"></i></span>
+                                        <span className="me-2"> <i className="bi bi-boxes"></i></span>
                                         <span>Department</span>
                                     </Link>
                                 </li>
@@ -61,6 +61,18 @@ export default function Sidebar() {
                                     <Link to="/domainList" className="nav-link px-3">
                                         <span className="me-2"> <i className="bi bi-boxes"></i></span>
                                         <span> Domain</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/companyList" className="nav-link px-3">
+                                        <span className="me-2"> <i className="bi bi-boxes"></i></span>
+                                        <span> Copmany</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/countryList" className="nav-link px-3">
+                                        <span className="me-2"> <i className="bi bi-boxes"></i></span>
+                                        <span> Country</span>
                                     </Link>
                                 </li>
                             </ul>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
-
+import Spinner from '../../Components/spinner/Spinner';
 import * as Apis from '../../context/Api'
 import './designation.css';
 import Pagination from '@mui/material/Pagination';
@@ -41,7 +41,7 @@ export default function Designationlist() {
     const [deletId, setdeletId] = useState('')
     const [open, setOpen] = useState(false);
     const [srpage, setsrpage] = useState(1);
-
+    const [spinner, setspinner] = useState(true)
     
   
 
@@ -64,6 +64,8 @@ export default function Designationlist() {
     const handleClose = () => {
         setOpen(false);
     };
+
+
     const sorting = (col) => {
         if (sortOrder === "asc") {
             const sorted = [...users].sort((a, b) =>
@@ -80,7 +82,6 @@ export default function Designationlist() {
             setsortOrder("asc")
         }
     }
-    //
 
 
 
@@ -152,7 +153,7 @@ export default function Designationlist() {
     const getData = (page) => {
         let data = {
             createdById: Info.userInfo._id,
-
+            companyId:Info.userInfo.companyId,
             searchText: searchTerm,
             page: page,
             count: Count,
@@ -164,7 +165,7 @@ export default function Designationlist() {
         axios.post(Apis.deslist(), data).then((response) => {
             setUsers(response.data.data)
             settotalCount(response.data.totalCount)
-
+            setspinner(false)
             setsrpage(page)
 
 
@@ -186,6 +187,9 @@ export default function Designationlist() {
     return (
 
         <div className={classes.table}>
+            {
+                spinner && <Spinner />
+            }
             <div>
                 <div className='row'>
                     <div className="col-4">
@@ -272,15 +276,17 @@ export default function Designationlist() {
 
             <Link to="/adddesignation" className=" btn btn-primary ">Add New Designation</Link>
             <TableContainer component={Paper}>
+                
+                
                 <Table aria-label="simple table" >
                     <TableHead>
                         <TableRow >
 
                             <TableCell>S.No</TableCell>
 
-                            <TableCell onClick={() => sorting("title")}>department<i className="bi bi-chevron-down"></i></TableCell>
+                            <TableCell onClick={() => sorting("departmentTitle")}>Department<i className="bi bi-chevron-down"></i></TableCell>
 
-                            <TableCell onClick={() => sorting("title")}>Designation <i className="bi bi-chevron-down"></i></TableCell>
+                            <TableCell onClick={() => sorting("departmentTitle")}>Designation<i className="bi bi-chevron-down"></i></TableCell>
 
                             <TableCell>Action</TableCell>
 
@@ -335,7 +341,8 @@ export default function Designationlist() {
 
                 </Table>
 
-
+                {
+                    totalCount>Count ?(            
                 <div className=" d-flex justify-content-center m-4">
                     <Pagination
                         count={Math.ceil(totalCount / Count)}
@@ -347,9 +354,12 @@ export default function Designationlist() {
 
                     />
                 </div>
+                 ): null}
+                 
             </TableContainer>
+                
             <ToastContainer />
-
+                     
         </div>
 
 

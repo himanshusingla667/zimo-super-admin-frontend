@@ -41,3 +41,18 @@ export let domainList = () => enviornment.baseUrl + '/api/v1/domain/list'
 export let domainDelete = () => enviornment.baseUrl + '/api/v1/domain/delete'
 export let domainEdit = () => enviornment.baseUrl + '/api/v1/domain/edit'
 export let domainDetails = () => enviornment.baseUrl + '/api/v1/domain/details'
+
+
+// comapny api
+export let companyList = () => enviornment.baseUrl + '/api/v1/company/list' 
+export let companyDelete = () => enviornment.baseUrl + '/api/v1/company/delete'
+export let companyAdd = () => enviornment.baseUrl + '/api/v1/company/add' 
+
+
+
+// country api
+export let countryList = () => enviornment.baseUrl + '/api/v1/country/list' 
+export let countryDelete = () => enviornment.baseUrl + '/api/v1/country/delete'
+export let countryAdd = () => enviornment.baseUrl + '/api/v1/country/add' 
+export let countryEdit = () => enviornment.baseUrl + '/api/v1/country/edit'
+export let countryDetails = () => enviornment.baseUrl + '/api/v1/country/details'

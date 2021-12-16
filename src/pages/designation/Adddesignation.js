@@ -62,7 +62,9 @@ export default function Adddesignation() {
         initialValues: {
             title: "",
             createdById:Info.userInfo._id,
-            departmentId: ""
+            departmentId: "",
+            
+            companyId:Info.userInfo.companyId
 
 
         },

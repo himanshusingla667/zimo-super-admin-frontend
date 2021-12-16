@@ -208,6 +208,7 @@ export default function Editdesignation() {
     const getData = () => {
         let data = {
             createdById: Info.userInfo._id,
+            
         }
         axios.post(Apis.departmentlist(), data).then((response) => {
             setdep(response.data.data)
@@ -219,6 +220,8 @@ export default function Editdesignation() {
     const getDetails = () => {
         let data = {
             _id:id,
+            createdById:Info.userInfo._id,
+            
         }
         axios.post(Apis.detailDes(), data).then((response) => {
             
@@ -266,7 +269,7 @@ export default function Editdesignation() {
             let updateObj = {
                 _id:id,
                 title:values.title,
-                departmentId:values.departmentId
+                departmentId:values.departmentId,
             }
             axios.post(Apis.editdes(),updateObj).then((response) => {
                 
