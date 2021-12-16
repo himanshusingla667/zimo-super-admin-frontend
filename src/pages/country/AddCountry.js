@@ -24,7 +24,7 @@ export default function AddCountry() {
     const formik = useFormik({
         initialValues: {
             title: "",
-           
+            createdById: Info.userInfo._id,
             userId:Info.userInfo._id,
             // token: Info.userInfo.jwtToken
         },
