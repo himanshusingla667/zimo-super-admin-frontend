@@ -60,11 +60,15 @@ export default function Sidebar() {
                                 <li>
                                     <Link to="/Techknowlogylist" className="nav-link px-3">
                                         <span className="me-2"><i class="bi bi-gear-wide-connected"></i></span>
-                                        <span> Techknowlogy</span>
+                                        <span> Technology</span>
                                     </Link>
                                     <Link to="/domainList" className="nav-link px-3">
                                         <span className="me-2"> <i className="bi bi-boxes"></i></span>
                                         <span> Domain</span>
+                                    </Link>
+                                    <Link to="/Statelist" className="nav-link px-3">
+                                        <span className="me-2"> <i class="bi bi-signpost-split-fill"></i></span>
+                                        <span> States</span>
                                     </Link>
                                 </li>
                             </ul>

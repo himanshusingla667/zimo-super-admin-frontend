@@ -144,6 +144,8 @@ export default function DomainList() {
                         }
                     </TableBody>
                 </Table>
+                <div>
+                    { totalcount > count ?(
                 <div className=" d-flex justify-content-center m-4">
                     <Pagination
                     count={Math.ceil(totalcount / count)}
@@ -152,6 +154,8 @@ export default function DomainList() {
                     }}
                     shape="rounded"
                     />
+                </div>
+                ):null }
                 </div>
             </TableContainer>
             <ToastContainer />

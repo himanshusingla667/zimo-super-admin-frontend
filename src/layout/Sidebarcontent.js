@@ -15,15 +15,21 @@ import AddDomain from '../pages/domain/AddDomain';
 import DomainList from '../pages/domain/DomainList';
 import EditDomain from '../pages/domain/EditDomain';
 
+
 // import Editdepartment from "../pages/Departments/Editdepartment";
 const Editdepartment = lazy(() => import('../pages/Departments/Editdepartment'));
 const Listdepartment = lazy(() => import('../pages/Departments/Listdepartment'));
 const Addform = lazy(() => import('../pages/Departments/Addform'));
 
 // Techknowlog 
-const  Techknowlogyadd= lazy(() => import('../pages/Techknowlogy/Techknowlogyadd'));
-const Techknowlogylist =lazy(()=>import('../pages/Techknowlogy/Techknowlogylist'))
-const TechknowlogyEdit =lazy(()=>import('../pages/Techknowlogy/TechknowlogyEdit'))
+const  Techknowlogyadd= lazy(() => import('../pages/ Technology/Techknowlogyadd'));
+const Techknowlogylist =lazy(()=>import('../pages/ Technology/Techknowlogylist'))
+const TechknowlogyEdit =lazy(()=>import('../pages/ Technology/TechknowlogyEdit'))
+
+// state
+const Addstate =lazy(()=>import('../pages/States/Addstate'))
+const Statelist =lazy(()=>import('../pages/States/Statelist'))
+const StateEdit =lazy(()=>import('../pages/States/StateEdit'))
 
 
 export default function Sidebarcontent() {
@@ -61,6 +67,11 @@ export default function Sidebarcontent() {
                 <Route exact path="/addDomain"><AddDomain/></Route>
                 <Route exact path="/domainList"><DomainList/></Route>
                 <Route exact path="/domainEdit/:id"><EditDomain/></Route>
+
+                {/* state Route path */}
+                <Route exact path="/Addstate"> <Addstate/> </Route>
+                <Route exact path="/Statelist"> <Statelist/> </Route>
+                <Route exact path="/StateEdit/:id"> <StateEdit/> </Route>
 
                 <Route component={Error404} />
             </Switch>

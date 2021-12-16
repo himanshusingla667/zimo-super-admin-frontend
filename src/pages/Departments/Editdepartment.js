@@ -76,14 +76,7 @@ export default function Editdepartment() {
         {
             spinner && <Spinner />
         }
-         <div>
-                    <h3 className="text-center">   Department list</h3>
-                    <div className="text-left d-flex justify-content-end">
-                        <Link className="btn btn-warning " to="/department/add">
-                            <h4>Edit Department</h4>
-                        </Link>
-                    </div>
-                </div>
+         
                 <div className="row">
                     <div className="col-6">
                         <form onSubmit={formik.handleSubmit}>

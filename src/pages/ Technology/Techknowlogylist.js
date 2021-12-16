@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-// import * as Apis from '../../enviornment/enviornment'
 import * as Apis from '../../context/Api'
 import React, { useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
@@ -13,6 +12,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import Button from '@mui/material/Button';
+import Info from '../../context/Info';
 // delete mui button close
 
 export default function Techknowlogylist() {
@@ -23,9 +23,11 @@ export default function Techknowlogylist() {
     const [deletId, setdeletId] = useState('')
     const [open, setOpen] = useState(false);
     const [pageNbr, setpageNbr]=useState()
-
-    
-
+    // 
+    const [delStatus, setdelStatus] = useState('false')
+    const [status, setstatus] = useState("true")
+    const [searchTerm, setsearchTerm] = useState("")
+   
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -54,19 +56,53 @@ export default function Techknowlogylist() {
         }
     }
  
-   
+    useEffect(
+        () => {
 
-    useEffect(() => {
-        getdata(1)
-    }, [])
+            getData(1)
 
-    const getdata = (page) => {
+        }, []
+    )
+
+    useEffect(
+        () => {
+            if (status === 'true') {
+
+
+                getData(1)
+            }
+
+        }, [status]
+    )
+    useEffect(
+        () => {
+            if (delStatus === 'false') {
+
+
+                getData(1)
+            }
+
+        }, [delStatus]
+    )
+    useEffect(
+        () => {
+            if (searchTerm === '') {
+                getData(1)
+            }
+
+        }, [searchTerm]
+    )
+
+
+    const getData = (page) => {
         let data = {
 
-            createdById: key,
+            userId: key,
             count: Count,
-            page: page
-
+            page: page,
+            searchText: searchTerm,
+            isActive: status,
+            isDeleted: delStatus,
         }
 
         axios.post(Apis.tecList(), data).then((response) => {
@@ -79,13 +115,15 @@ export default function Techknowlogylist() {
         })
     }; 
     const deleteTitle = (_id) => {
-
-            axios.post(Apis.tecDelete(), {
-                _id: _id,
-    
-            }).then((response) => {
+        let tecdel ={
+            _id :_id,
+            userId:Info.userInfo._id,
+            createdById:Info.userInfo._id,
+            companyId:Info.userInfo.companyId,
+        }
+            axios.post(Apis.tecDelete(),tecdel,{headers : {'x-access-token':Info.token}}).then((response) => {
                 toast(response.data.message);
-                getdata()
+                getData()
                 setOpen(false);
             })
     
@@ -97,20 +135,76 @@ export default function Techknowlogylist() {
                 spinner && <Spinner />
             }
             <div className="container">
-                <div>
-                    <h3 className="text-center">   Techknowlogy list</h3>
-                    <div className="text-left d-flex justify-content-end">
-                        <Link className="btn btn-warning " to="/Techknowlogyadd">
-                            <h4> Techknowlogy Add </h4>
-                        </Link>
+            <div className='row'>
+                    <h1 className="text-center m-4">Technology list</h1>
+                    <div className="col-3   ">
+                        <input type="text" placeholder="Search..." value={searchTerm} className="form-control mb-2"
+                            onChange={(e) => {
+                                setsearchTerm(e.target.value)
+                            }}
+                        ></input>
+                    </div>
+                    <div className="col-3">
+
+                        <select onChange={(e) => {
+                            console.log(e.target.value)
+                            setstatus(e.target.value)
+                        }} class="form-select" aria-label="Default select example">
+                            {/* <option selected>Active status</option> */}
+
+                            {<option value="true"
+
+                            >Active</option>}
+                            <option value="false">
+                                In active</option>
+                        </select>
+                    </div>
+                    <div className="col-3">
+                        <select onChange={(e) => {
+                            setdelStatus(e.target.value)
+                        }} class="form-select" aria-label="Default select example">
+                            <option selected>Delete Status</option>
+
+                            <option value="true">Deleted</option>
+                            <option value="false">Not Deleted</option>
+                        </select>
+                    </div>
+                    <div className='col-1'>
+                        <span>
+                            <button type="submit" className="btn btn-primary " onClick={() => {
+                                if (searchTerm || status || delStatus) {
+                                    getData(1)
+                                }
+
+                            }} >Search</button></span>
+                    </div>
+                    <div className='col-1'>
+                        <span>
+                            <button className="btn btn-danger " onClick={() => {
+                                setsearchTerm('')
+                                setdelStatus('false')
+                                setstatus('true')
+
+                            }}> clear</button>
+                        </span>
+                    </div>
+                    <div className="col-1">
+
+                        <div className="text-left">
+                            <Link className="btn btn-warning " to="/Techknowlogyadd">
+                                Add
+                            </Link>
+                        </div>
                     </div>
                 </div>
+                { tect.length>0 ? (
 
                 <table className="table">
                     <thead>
                         <tr>
                             <th scope="col" >S.no</th>
                             <th scope="col" onClick={() => sorting("title")}>Title<i className="bi bi-chevron-down"></i></th>
+                            <th scope="col" onClick={() => sorting("description")}>Description<i className="bi bi-chevron-down"></i></th>
                             <th scope="col" >Actions</th>
 
                         </tr>
@@ -121,10 +215,10 @@ export default function Techknowlogylist() {
 
                                 <tr key={item._id}>
                                     <th scope="row">{Count * (pageNbr - 1) + index + 1}</th>
-                                    <td>{item.title} </td>
-                                    <td>{item.description} </td>
+                                    <td className="col-2">{item.title} </td>
+                                    <td className="col-6">{item.description} </td>
 
-                                     <td>
+                                     <td >
                                         <Link className="btn btn-success m-2" to={`/TechknowlogyEdit/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
 
                                         <button className="btn btn-danger" onClick={() => {
@@ -159,17 +253,22 @@ export default function Techknowlogylist() {
 
                     </tbody>
                 </table>
-                <div className="d-flex justify-content-center m-4">
-
+                                ): <div className='text-center mt-5'>No record found</div>}
+           <div> 
+               { totalCount > Count ? (
+                <div className="d-flex justify-content-center m-4">               
+               
                     <Pagination
                         count={Math.ceil(totalCount / Count)}
                         showFirstButton
                         showLastButton
                         onChange={(event, value) => {
-                            getdata(value)
+                            getData(value)
                         }}
-                    />
+                    /> 
                 </div>
+                       ): null}
+                 </div>
             </div>
             <ToastContainer />
         </div>
