@@ -14,7 +14,13 @@ import Spinner from '../../Components/spinner/Spinner';
 export default function TechknowlogyEdit() {
     const [spinner, setspinner] = useState(true)
 
+<<<<<<< HEAD
    
+=======
+    useEffect(() => {
+        
+    }, [])
+>>>>>>> 75747f55740ab4113d25018448cb9620349607c4
     let history = useHistory();
     let {id}=useParams()
 
