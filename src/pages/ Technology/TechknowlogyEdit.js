@@ -15,7 +15,7 @@ export default function TechknowlogyEdit() {
     const [spinner, setspinner] = useState(true)
 
     useEffect(() => {
-        console.log(Info);
+        
     }, [])
     let history = useHistory();
     let {id}=useParams()

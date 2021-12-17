@@ -6,7 +6,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Pagination from '@mui/material/Pagination';
 import Spinner from '../../Components/spinner/Spinner';
-// delete mui button
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -15,24 +14,26 @@ import Button from '@mui/material/Button';
 import Info from '../../context/Info';
 import Switch from '@mui/material/Switch';
 
-// delete mui button close
+
 
 export default function Statelist() {
+
+
+
     const [spinner, setspinner] = useState(true)
     const [totalCount, settotalCount] = useState(0)
     const [stateList, setstateList] = useState([]);
     const [sortOrder, setsortOrder] = useState("asc")
     const [deletId, setdeletId] = useState('')
     const [open, setOpen] = useState(false);
+    const [clear, setClear] = useState(false);
     const [pageNbr, setpageNbr] = useState()
-    // 
     const [delStatus, setdelStatus] = useState('false')
     const [status, setstatus] = useState("true")
     const [searchTerm, setsearchTerm] = useState("")
-    const [toggle, settoggle] = useState(true)
-    // const [checked, setChecked] = React.useState(true);
 
-
+    let Count = 5
+    const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 
     const handleClickOpen = () => {
@@ -42,9 +43,6 @@ export default function Statelist() {
     const handleClose = () => {
         setOpen(false);
     };
-
-
-    let Count = 5
 
     const sorting = (col) => {
         if (sortOrder === "asc") {
@@ -63,42 +61,20 @@ export default function Statelist() {
         }
     }
 
+    const resetFilters = () => {
+        setsearchTerm('')
+        setdelStatus('false')
+        setstatus('true')
+        setClear(!clear)
+    }
+
     useEffect(
         () => {
-
             getData(1)
-
-        }, []
+        }, [clear]
     )
 
-    useEffect(
-        () => {
-            if (status === 'true') {
 
-
-                getData(1)
-            }
-
-        }, [status]
-    )
-    useEffect(
-        () => {
-            if (delStatus === 'false') {
-
-
-                getData(1)
-            }
-
-        }, [delStatus]
-    )
-    useEffect(
-        () => {
-            if (searchTerm === '') {
-                getData(1)
-            }
-
-        }, [searchTerm]
-    )
 
     const getData = (page) => {
         let data = {
@@ -120,12 +96,8 @@ export default function Statelist() {
         })
 
     };
-    // const handleChange = (event) => {
-    //     setChecked(event.target.checked);
-    // };
-    const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-    const activeStatus = (_id) => {
+    const activeStatus = (_id, toggle) => {
         let activeData = {
             _id: _id,
             userId: Info.userInfo._id,
@@ -152,6 +124,9 @@ export default function Statelist() {
         })
 
     }
+
+
+
     return (
         <>
             {
@@ -173,7 +148,7 @@ export default function Statelist() {
                             console.log(e.target.value)
                             setstatus(e.target.value)
                         }} className="form-select" aria-label="Default select example">
-                            {/* <option selected>Active status</option> */}
+
 
                             {<option value="true"
 
@@ -196,7 +171,7 @@ export default function Statelist() {
                         <span>
                             <button type="submit" className="btn btn-primary " onClick={() => {
                                 if (searchTerm || status || delStatus) {
-                                    // console.log(status);
+
                                     getData(1)
                                 }
 
@@ -204,12 +179,7 @@ export default function Statelist() {
                     </div>
                     <div className='col-1'>
                         <span>
-                            <button className="btn btn-danger " onClick={() => {
-                                setsearchTerm('')
-                                setdelStatus('false')
-                                setstatus('true')
-
-                            }}> clear</button>
+                            <button className="btn btn-danger " onClick={resetFilters}> clear</button>
                         </span>
                     </div>
                     <div className="col-1">
@@ -242,8 +212,6 @@ export default function Statelist() {
                                         <th scope="row">{Count * (pageNbr - 1) + index + 1}</th>
                                         <td className="col-2">{item.title} </td>
                                         <td className="col-2">{item.countryTitle} </td>
-
-
                                         <td >
                                             <Link className="btn btn-success m-2" to={`/StateEdit/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
 
@@ -274,50 +242,12 @@ export default function Statelist() {
                                             </Dialog>
                                         </td>
                                         <td>
-                                            {/* <form>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked 
-                                            onClick={()=>{
-                                                activeStatus(item._id)
-                                                if(toggle===false){
-                                                settoggle(true)
-                                                }
-                                                else if(toggle===true){
-                                                    settoggle(false)
-                                                }
-                                            }}
-                                            ></input>
-                                                
-                                        </div>
-                                        </form> */}
-                                            <Switch {...label} defaultChecked
+
+                                            <Switch {...label} defaultChecked={item.isActive}
                                                 onClick={() => {
-                                                    activeStatus(item._id)
-                                                    if (toggle === false) {
-                                                        settoggle(true)
-                                                    }
-                                                    else if (toggle === true) {
-                                                        settoggle(false)
-                                                    }
+                                                    activeStatus(item._id, item.isActive)
                                                 }}
                                             />
-
-                                            {/* <Switch
-                                                checked={checked}
-                                                onChange={handleChange}
-                                                inputProps={item._id }
-                                                onClick={()=>{
-                                                    activeStatus(item._id)
-                                                    if(toggle===false){
-                                                    settoggle(true)
-                                                    }
-                                                    else if(toggle===true){
-                                                        settoggle(false)
-                                                    }
-                                                    
-    
-                                                }}
-                                            /> */}
                                         </td>
                                     </tr>
                                 )
