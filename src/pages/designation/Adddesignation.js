@@ -1,4 +1,3 @@
-import { makeStyles } from '@material-ui/core'
 import React, { useState, useEffect } from 'react'
 import InputLabel from '@mui/material/InputLabel';
 import { useFormik } from 'formik'
@@ -6,7 +5,6 @@ import { TextField } from '@material-ui/core'
 import * as yup from 'yup'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
-// import * as Apis from '../../enviornment/enviornment'
 import * as Apis from '../../context/Api'
 import MenuItem from '@mui/material/MenuItem';
 import { ToastContainer, toast } from 'react-toastify';
@@ -15,6 +13,7 @@ import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
 import Info from '../../context/Info';
+
 
 
 
@@ -41,23 +40,7 @@ export default function Adddesignation() {
 
 
 
-    //  const [age, setAge] = React.useState('');
-    //  const handleChange = (event) => {
-    //      setAge(event.target.value);
-    //  };
-
-    const useStyle = makeStyles(
-        {
-            container: {
-                width: '50%',
-                margin: '5% 0 0 25%',
-                '& > *': {
-                    marginTop: 20
-                }
-            }
-        }
-    )
-
+    
     const formik = useFormik({
         initialValues: {
             title: "",
@@ -100,10 +83,10 @@ export default function Adddesignation() {
 
 
     const history = useHistory();
-    const classes = useStyle();
+    
 
     return (
-        <div className={classes.container}>
+        <div className='container'>
             <h1>Designation</h1>
             <form onSubmit={formik.handleSubmit}>
                 <div className="position-relative">

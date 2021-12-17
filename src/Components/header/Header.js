@@ -6,11 +6,12 @@ import * as Apis from '../../context/Api'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 
+
 export default function Header() {
   
 
 
-  console.log('Info ', Info);
+  
 
   let name= Info.userInfo.firstName
 
@@ -70,7 +71,7 @@ export default function Header() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             </ul>
-            <text className='navbar-brand ps-3'>Welcome {name}</text>
+            <h5 className='navbar-brand ps-3 mt-2'>Welcome {name}</h5>
             <li className="nav-item dropdown">
               <Link className="nav-link dropdown-toggle mb-4" to="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i className="bi bi-person-fill"></i>

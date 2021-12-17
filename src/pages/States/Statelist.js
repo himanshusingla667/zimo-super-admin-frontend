@@ -172,7 +172,7 @@ export default function Statelist() {
                         <select onChange={(e) => {
                             console.log(e.target.value)
                             setstatus(e.target.value)
-                        }} class="form-select" aria-label="Default select example">
+                        }} className="form-select" aria-label="Default select example">
                             {/* <option selected>Active status</option> */}
 
                             {<option value="true"
@@ -185,8 +185,8 @@ export default function Statelist() {
                     <div className="col-3">
                         <select onChange={(e) => {
                             setdelStatus(e.target.value)
-                        }} class="form-select" aria-label="Default select example">
-                            <option selected>Delete Status</option>
+                        }} className="form-select" aria-label="Default select example">
+                            <option defaultValue={'value'}>Delete Status</option>
 
                             <option value="true">Deleted</option>
                             <option value="false">Not Deleted</option>

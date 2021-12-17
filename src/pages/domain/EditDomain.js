@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
@@ -9,11 +9,13 @@ import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
 import { useHistory, useParams } from 'react-router-dom'
+import Spinner from '../../Components/spinner/Spinner';
+
 
 export default function EditDomain() {
     
     
-    
+    const [spinner, setspinner] = useState(true)
     let history=useHistory();
     let {id}=useParams()
 
@@ -33,7 +35,8 @@ export default function EditDomain() {
             companyId: Info.userInfo.companyId
         }
         axios.post(Apis.domainDetails(), data,  {headers: {'x-access-token': Info.token}}).then((response) => {
-               
+             
+             setspinner(false)
              for (let item in formik.initialValues) {
                formik.setFieldValue(item, response.data.data[item])
                 
@@ -90,6 +93,9 @@ export default function EditDomain() {
 
     return (
         <div className='container'>
+            {
+                spinner && <Spinner />
+            }
             <h1>Domain </h1>
             <form onSubmit={formik.handleSubmit}>
                 <TextField

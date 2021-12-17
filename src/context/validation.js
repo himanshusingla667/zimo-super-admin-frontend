@@ -1,5 +1,5 @@
-let genralConfig
-export default genralConfig = {
+
+export default {
   pattern: {
     NAME: /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/,
     NAMENumber: /^[a-zA-Z0-9]+(([',. -][a-zA-Z0-9 ])?[a-zA-Z0-9]*)*$/,
