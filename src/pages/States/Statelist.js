@@ -13,6 +13,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import Button from '@mui/material/Button';
 import Info from '../../context/Info';
+import Switch from '@mui/material/Switch';
+
 // delete mui button close
 
 export default function Statelist() {
@@ -27,7 +29,8 @@ export default function Statelist() {
     const [delStatus, setdelStatus] = useState('false')
     const [status, setstatus] = useState("true")
     const [searchTerm, setsearchTerm] = useState("")
-    const [state, setstate] = useState(true)
+    const [toggle, settoggle] = useState(true)
+    // const [checked, setChecked] = React.useState(true);
 
 
 
@@ -117,11 +120,25 @@ export default function Statelist() {
         })
 
     };
-    const setToggle = () => {
-        let avtiveToggle = {
+    // const handleChange = (event) => {
+    //     setChecked(event.target.checked);
+    // };
+    const label = { inputProps: { 'aria-label': 'Switch demo' } };
+
+    const activeStatus = (_id) => {
+        let activeData = {
+            _id: _id,
+            userId: Info.userInfo._id,
+            isActive: toggle
 
         }
+        axios.post(Apis.StateToggle(), activeData, { headers: { 'x-access-token': Info.token } }).then((response) => {
+            getData(1);
+            toast(response.data.message);
+
+        })
     }
+
 
     const deleteTitle = (_id) => {
         let statedel = {
@@ -136,7 +153,7 @@ export default function Statelist() {
 
     }
     return (
-        <div>
+        <>
             {
                 spinner && <Spinner />
             }
@@ -257,12 +274,50 @@ export default function Statelist() {
                                             </Dialog>
                                         </td>
                                         <td>
-                                            <div className="form-check form-switch">
-                                                <input className="form-check-input " type="checkbox" id="flexSwitchCheckchecked"  checked
-                                                onClick={()=>{
+                                            {/* <form>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked 
+                                            onClick={()=>{
+                                                activeStatus(item._id)
+                                                if(toggle===false){
+                                                settoggle(true)
+                                                }
+                                                else if(toggle===true){
+                                                    settoggle(false)
+                                                }
+                                            }}
+                                            ></input>
+                                                
+                                        </div>
+                                        </form> */}
+                                            <Switch {...label} defaultChecked
+                                                onClick={() => {
+                                                    activeStatus(item._id)
+                                                    if (toggle === false) {
+                                                        settoggle(true)
+                                                    }
+                                                    else if (toggle === true) {
+                                                        settoggle(false)
+                                                    }
+                                                }}
+                                            />
 
-                                                }}/>
-                                            </div>
+                                            {/* <Switch
+                                                checked={checked}
+                                                onChange={handleChange}
+                                                inputProps={item._id }
+                                                onClick={()=>{
+                                                    activeStatus(item._id)
+                                                    if(toggle===false){
+                                                    settoggle(true)
+                                                    }
+                                                    else if(toggle===true){
+                                                        settoggle(false)
+                                                    }
+                                                    
+    
+                                                }}
+                                            /> */}
                                         </td>
                                     </tr>
                                 )
@@ -289,7 +344,7 @@ export default function Statelist() {
                 </div>
             </div>
             <ToastContainer />
-        </div>
+        </>
     )
 }
 

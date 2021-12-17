@@ -1,4 +1,4 @@
-import {  InputLabel, makeStyles } from '@material-ui/core'
+import {  InputLabel} from '@material-ui/core'
 import React, { useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,6 +8,7 @@ import * as yup from 'yup'
 import { useHistory, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import Spinner from '../../Components/spinner/Spinner';
 
 // import * as Apis from '../../enviornment/enviornment'
 import MenuItem from '@mui/material/MenuItem';
@@ -19,7 +20,7 @@ import Select from '@mui/material/Select';
 
 export default function StateEdit() {
     const [statelist, setstatelist] = useState([]);
-    
+    const [spinner, setspinner] = useState(true)
 
     const {id} = useParams();
     
@@ -46,7 +47,7 @@ export default function StateEdit() {
             userId:Info.userInfo._id
         }
         axios.post(Apis.StateDetails(), data,{headers: {'x-access-token': Info.token}}).then((response) => {
-            
+            setspinner(false)   
             toast(response.data.message);
             
             for(let item in formik.initialValues){
@@ -57,17 +58,17 @@ export default function StateEdit() {
 
     };
 
-    const useStyle = makeStyles(
-        {
-            container: {
-                width: '50%',
-                margin: '5% 0 0 25%',
-                '& > *': {
-                    marginTop: 20
-                }
-            }
-        }
-    )
+    // const useStyle = makeStyles(
+    //     {
+    //         container: {
+    //             width: '50%',
+    //             margin: '5% 0 0 25%',
+    //             '& > *': {
+    //                 marginTop: 20
+    //             }
+    //         }
+    //     }
+    // )
 
     const formik = useFormik({
         initialValues: {
@@ -110,10 +111,14 @@ export default function StateEdit() {
 
 
     const history = useHistory();
-    const classes = useStyle();
+    // const classes = useStyle();
 
     return (
-        <div className={classes.container}>
+    <>
+    {
+            spinner && <Spinner />
+        }
+         <div className="container">
             <h1>Edit State</h1>
             <form onSubmit={formik.handleSubmit}>
                 <div className="position-relative">
@@ -154,7 +159,7 @@ export default function StateEdit() {
                 
             </form>
             <ToastContainer />
-        </div>
-        
+         </div>
+        </>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
@@ -9,8 +9,10 @@ import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
 import { useHistory,useParams } from 'react-router-dom'
+import Spinner from '../../Components/spinner/Spinner';
 
 export default function TechknowlogyEdit() {
+    const [spinner, setspinner] = useState(true)
 
     useEffect(() => {
         console.log(Info);
@@ -35,7 +37,7 @@ export default function TechknowlogyEdit() {
 
         }
         axios.post(Apis.tecDetails(), data,  {headers: {'x-access-token': Info.token}}).then((response) => {
-               
+            setspinner(false)   
              for (let item in formik.initialValues) {
                formik.setFieldValue(item, response.data.data[item])
                 
@@ -80,7 +82,13 @@ export default function TechknowlogyEdit() {
 
  
     return (
+
+       
+         
         <div className='container'>
+             {
+            spinner && <Spinner />
+        }
             <h1> Technology</h1>
             <form onSubmit={formik.handleSubmit}>
             <div className="mt-4">
