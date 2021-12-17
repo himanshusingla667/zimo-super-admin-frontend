@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
@@ -12,9 +12,7 @@ import { useHistory } from 'react-router-dom'
 
 export default function Techknowlogyadd() {
 
-    useEffect(() => {
-        console.log(Info);
-    }, [])
+   
     let history = useHistory();
 
     const formik = useFormik({

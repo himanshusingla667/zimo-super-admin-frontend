@@ -21,6 +21,7 @@ import Select from '@mui/material/Select';
 export default function StateEdit() {
     const [statelist, setstatelist] = useState([]);
     const [spinner, setspinner] = useState(true)
+    const history = useHistory();
 
     const {id} = useParams();
     
@@ -57,19 +58,6 @@ export default function StateEdit() {
         })
 
     };
-
-    // const useStyle = makeStyles(
-    //     {
-    //         container: {
-    //             width: '50%',
-    //             margin: '5% 0 0 25%',
-    //             '& > *': {
-    //                 marginTop: 20
-    //             }
-    //         }
-    //     }
-    // )
-
     const formik = useFormik({
         initialValues: {
             title: "",
@@ -105,14 +93,6 @@ export default function StateEdit() {
             })
         }
     });
-
-   
-
-
-
-    const history = useHistory();
-    // const classes = useStyle();
-
     return (
     <>
     {

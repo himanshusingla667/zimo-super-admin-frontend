@@ -29,7 +29,7 @@ export default function Statelist() {
     const [delStatus, setdelStatus] = useState('false')
     const [status, setstatus] = useState("true")
     const [searchTerm, setsearchTerm] = useState("")
-    const [toggle, settoggle] = useState(true)
+    // const [toggle, settoggle] = useState(true)
     // const [checked, setChecked] = React.useState(true);
 
 
@@ -99,6 +99,7 @@ export default function Statelist() {
 
         }, [searchTerm]
     )
+    
 
     const getData = (page) => {
         let data = {
@@ -125,7 +126,7 @@ export default function Statelist() {
     // };
     const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-    const activeStatus = (_id) => {
+    const activeStatus = (_id,toggle) => {
         let activeData = {
             _id: _id,
             userId: Info.userInfo._id,
@@ -285,20 +286,25 @@ export default function Statelist() {
                                                 else if(toggle===true){
                                                     settoggle(false)
                                                 }
-                                            }}
+                                            }}  
                                             ></input>
                                                 
                                         </div>
                                         </form> */}
-                                            <Switch {...label} defaultChecked
-                                                onClick={() => {
-                                                    activeStatus(item._id)
-                                                    if (toggle === false) {
-                                                        settoggle(true)
-                                                    }
-                                                    else if (toggle === true) {
-                                                        settoggle(false)
-                                                    }
+                                            <Switch {...label} defaultChecked={item.isActive}
+                                                onClick={(e) => {
+                                                    // console.log(e.target.checked);
+                                                    activeStatus(item._id,item.isActive)
+
+                                                    // if (toggle === false) {
+                                                    //     settoggle(true)
+                                                    //     activeStatus(item._id)
+                                                    // }
+                                                    // else if (toggle === true) {
+                                                    //     settoggle(false)
+                                                    //     activeStatus(item._id)
+
+                                                    // }
                                                 }}
                                             />
 

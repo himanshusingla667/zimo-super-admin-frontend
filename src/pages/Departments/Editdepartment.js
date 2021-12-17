@@ -14,8 +14,6 @@ import Info from '../../context/Info'
 
 export default function Editdepartment() {
     const [spinner, setspinner] = useState(true)
-
-    // let history = useHistory();
     const { id } = useParams()
 
 

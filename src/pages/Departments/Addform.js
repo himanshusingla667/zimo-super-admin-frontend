@@ -16,9 +16,11 @@ export default function Addform() {
     let history = useHistory();
 
     const formik = useFormik({
-        initialValues: {
+        initialValues: { 
             title: '',
-            createdById:Info.userInfo._id,
+            createdById: Info.userInfo._id,
+            userId: Info.userInfo._id,
+            companyId:Info.userInfo.companyId
         },
         validationSchema: Yup.object({
             title: Yup.string().max(30, 'Must be 30 characters or less').required("Enter Your title")
@@ -32,7 +34,6 @@ export default function Addform() {
 
 
     let submitData = (value) => {
-        console.log(value);
         
         axios.post(Apis.departmentadd(), value).then((response) => {
           
