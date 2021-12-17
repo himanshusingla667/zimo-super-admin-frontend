@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
 import { useHistory, useParams } from 'react-router-dom'
+import Spinner from '../../Components/spinner/Spinner';
 
 export default function EditCountry() {
     
@@ -16,7 +17,7 @@ export default function EditCountry() {
     
     let history=useHistory();
     let {id}=useParams()
-
+    const [spinner, setspinner] = useState(true)
 
 
     useEffect(
@@ -33,6 +34,8 @@ export default function EditCountry() {
         axios.post(Apis.countryDetails(), data,  {headers: {'x-access-token': Info.token}}).then((response) => {
                
              for (let item in formik.initialValues) {
+               
+                setspinner(false)
                formik.setFieldValue(item, response.data.data[item])
                 
             }
@@ -83,6 +86,9 @@ export default function EditCountry() {
 
     return (
         <div className='container'>
+            {
+                spinner && <Spinner />
+            }
             <h1>country </h1>
             <form onSubmit={formik.handleSubmit}>
                 <TextField

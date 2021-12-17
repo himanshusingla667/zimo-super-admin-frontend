@@ -13,7 +13,7 @@ export default function Sidebar() {
 
                 <div className=" ms-auto text-center p-2">
                 <div className="image">
-            <img src={img} alt="User Image"/>
+            <img src={img} alt="User Img"/>
           </div>
                     <Link className="navbar-brand fw-boold text-uppercase me-auto" to="#">profile</Link>
 
@@ -59,7 +59,7 @@ export default function Sidebar() {
                                 </li>
                                 <li>
                                     <Link to="/Techknowlogylist" className="nav-link px-3">
-                                        <span className="me-2"><i class="bi bi-gear-wide-connected"></i></span>
+                                        <span className="me-2"><i className="bi bi-gear-wide-connected"></i></span>
                                         <span> Technology</span>
                                     </Link>
                                     <Link to="/domainList" className="nav-link px-3">
@@ -67,14 +67,14 @@ export default function Sidebar() {
                                         <span> Domain</span>
                                     </Link>
                                     <Link to="/Statelist" className="nav-link px-3">
-                                        <span className="me-2"> <i class="bi bi-signpost-split-fill"></i></span>
+                                        <span className="me-2"> <i className="bi bi-signpost-split-fill"></i></span>
                                         <span> States</span>
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to="/companyList" className="nav-link px-3">
                                         <span className="me-2"> <i className="bi bi-boxes"></i></span>
-                                        <span> Copmany</span>
+                                        <span> Company</span>
                                     </Link>
                                 </li>
                                 <li>

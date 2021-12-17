@@ -1,4 +1,4 @@
-import React ,{useEffect, useState} from 'react'
+import React ,{useEffect} from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import validation from '../../context/validation'
@@ -17,7 +17,7 @@ export default function AddCountry() {
     
 
     useEffect(() => {
-        console.log(Info);
+        
     }, [])
     let history=useHistory();
     

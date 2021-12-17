@@ -155,7 +155,7 @@ export default function DomainList() {
                         <select onChange={(e) => {
                             console.log(e.target.value)
                             setstatus(e.target.value)
-                        }} class="form-select" aria-label="Default select example">
+                        }} className="form-select" aria-label="Default select example">
                             {/* <option selected>Active status</option> */}
 
                             {<option value="true"
@@ -174,8 +174,8 @@ export default function DomainList() {
                     <div className="col-3">
                         <select onChange={(e) => {
                             setdelStatus(e.target.value)
-                        }} class="form-select" aria-label="Default select example">
-                            <option selected>Delete Status</option>
+                        }} className="form-select" aria-label="Default select example">
+                            <option defaultValue={'value'}>Delete Status</option>
 
                             <option value="true">Deleted</option>
                             <option value="false">Not Deleted</option>
@@ -213,6 +213,7 @@ export default function DomainList() {
                 </div>
             </div>
             <TableContainer component={Paper}>
+            {domain.length > 0 ? (
                 <Table area-aria-label='simple table'>
                     <TableHead>
                         <TableRow>
@@ -276,6 +277,7 @@ export default function DomainList() {
                         }
                     </TableBody>
                 </Table>
+                 ) : <div className='text-center mt-5'>No record found</div>}
                 {
                     totalcount>count ?(
                 <div className=" d-flex justify-content-center m-4">
