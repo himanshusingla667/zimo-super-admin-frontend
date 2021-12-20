@@ -16,6 +16,8 @@ import Button from '@mui/material/Button';
 import Switch from '@mui/material/Switch';
 
 
+import Switch from '@mui/material/Switch';
+
 
 const useStyle = makeStyles({
     table: {
@@ -48,7 +50,7 @@ export default function Designationlist() {
     //seacrh bar start
     const [searchTerm, setsearchTerm] = useState("")
     //seacrh bar ends
-
+    const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
     //Pagination starts 
     const [totalCount, settotalCount] = useState([]);
@@ -64,6 +66,12 @@ export default function Designationlist() {
     const handleClose = () => {
         setOpen(false);
     };
+    const resetFilters = () => {
+        setsearchTerm('')
+        setdelStatus('false')
+        setstatus('true')
+        setClear(!clear)
+    }
 
 
     const sorting = (col) => {
@@ -144,6 +152,20 @@ export default function Designationlist() {
     }
 
 
+    const activeStatus = (_id, toggle) => {
+        let activeData = {
+            _id: _id,
+            userId: Info.userInfo._id,
+            isActive: toggle
+
+        }
+        axios.post(Apis.desToggle(), activeData, { headers: { 'x-access-token': Info.token } }).then((response) => {
+            getData(1);
+            toast(response.data.message);
+
+        })
+    }
+
     const deleteUserData = (_id) => {
         axios.post(Apis.delDes(), {
             _id: _id
@@ -196,7 +218,7 @@ export default function Designationlist() {
                         <span>
                             <button type="submit" className="btn btn-primary " onClick={() => {
                                 if (searchTerm || status || delStatus) {
-                                    console.log(status);
+                                    
                                     getData(1)
                                 }
 
