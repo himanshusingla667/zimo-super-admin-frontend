@@ -17,6 +17,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import Button from '@mui/material/Button';
 
+import Switch from '@mui/material/Switch';
+
 
 const useStyle = makeStyles({
     table: {
@@ -42,13 +44,13 @@ export default function Designationlist() {
     const [open, setOpen] = useState(false);
     const [srpage, setsrpage] = useState(1);
     const [spinner, setspinner] = useState(true)
-
+    const [clear, setClear] = useState(false);
 
 
     //seacrh bar start
     const [searchTerm, setsearchTerm] = useState("")
     //seacrh bar ends
-
+    const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
     //Pagination starts 
     const [totalCount, settotalCount] = useState([]);
@@ -64,6 +66,12 @@ export default function Designationlist() {
     const handleClose = () => {
         setOpen(false);
     };
+    const resetFilters = () => {
+        setsearchTerm('')
+        setdelStatus('false')
+        setstatus('true')
+        setClear(!clear)
+    }
 
 
     const sorting = (col) => {
@@ -100,52 +108,10 @@ export default function Designationlist() {
 
             getData(1)
 
-        }, []
-    )
-
-    useEffect(
-        () => {
-            if (status === 'true') {
-
-
-                getData(1)
-            }
-
-        }, [status]
-    )
-    useEffect(
-        () => {
-            if (delStatus === 'false') {
-
-
-                getData(1)
-            }
-
-        }, [delStatus]
-    )
-    useEffect(
-        () => {
-            if (searchTerm === '') {
-
-
-                getData(1)
-            }
-
-        }, [searchTerm]
+        }, [clear]
     )
 
 
-
-    // const getStatus=()=>{
-    //     let statusData={
-    //         _id: Info.userInfo._id,
-    //         isActive: true
-    //     }
-
-    //     axios.post(Apis.desStatus(),statusData).then((response)=>{
-    //         console.log("cfdd",response.data.data);
-    //     })
-    // }
 
 
 
@@ -172,6 +138,20 @@ export default function Designationlist() {
         })
 
     };
+
+    const activeStatus = (_id, toggle) => {
+        let activeData = {
+            _id: _id,
+            userId: Info.userInfo._id,
+            isActive: toggle
+
+        }
+        axios.post(Apis.desToggle(), activeData, { headers: { 'x-access-token': Info.token } }).then((response) => {
+            getData(1);
+            toast(response.data.message);
+
+        })
+    }
 
     const deleteUserData = (_id) => {
         axios.post(Apis.delDes(), {
@@ -234,7 +214,7 @@ export default function Designationlist() {
                         <span>
                             <button type="submit" className="btn btn-primary " onClick={() => {
                                 if (searchTerm || status || delStatus) {
-                                    console.log(status);
+                                    
                                     getData(1)
                                 }
 
@@ -242,12 +222,7 @@ export default function Designationlist() {
                     </div>
                     <div className='col-1'>
                         <span>
-                            <button className="btn btn-danger " onClick={() => {
-                                setsearchTerm('')
-                                setdelStatus('false')
-                                setstatus('true')
-
-                            }}> clear</button>
+                            <button className="btn btn-danger " onClick={resetFilters}> clear</button>
                         </span>
                     </div>
                 </div>
@@ -290,6 +265,7 @@ export default function Designationlist() {
                                 <TableCell onClick={() => sorting("departmentTitle")}>Designation<i className="bi bi-chevron-down"></i></TableCell>
 
                                 <TableCell>Action</TableCell>
+                                <TableCell>Status</TableCell>
 
                             </TableRow>
                         </TableHead>
@@ -333,6 +309,13 @@ export default function Designationlist() {
                                                     <Button onClick={() => { deleteUserData(deletId) }}>Yes </Button>
                                                 </DialogActions>
                                             </Dialog>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Switch {...label} defaultChecked={user.isActive}
+                                                onClick={(e) => {
+                                                    activeStatus(user._id, user.isActive)
+                                                }}
+                                            />
                                         </TableCell>
                                     </TableRow>
                                 ))

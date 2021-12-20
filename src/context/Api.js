@@ -14,7 +14,7 @@ export let deslist = () => enviornment.baseUrl + '/api/v1/designation/list'
 export let editdes = () => enviornment.baseUrl + '/api/v1/designation/update'
 export let detailDes = () => enviornment.baseUrl + '/api/v1/designation/details'
 export let delDes = () =>enviornment.baseUrl + '/api/v1/designation/delete' 
-export let desStatus = () =>enviornment.baseUrl + '/api/v1/designation/changeStatus'
+export let desToggle = () =>enviornment.baseUrl + '/api/v1/designation/changeStatus'
 
 
 // Department api
