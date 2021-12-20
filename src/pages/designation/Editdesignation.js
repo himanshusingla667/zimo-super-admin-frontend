@@ -87,6 +87,7 @@ export default function Editdesignation() {
                 _id:id,
                 title:values.title,
                 departmentId:values.departmentId,
+                companyId: Info.userInfo.companyId
             }
             axios.post(Apis.editdes(),updateObj).then((response) => {
                 

@@ -58,7 +58,7 @@ export default function DomainList() {
     }
 
 
-    let count = 5;
+    let count = 4;
 
     const resetFilters = () => {
 
@@ -201,8 +201,8 @@ export default function DomainList() {
     <thead>
         <tr>
             <th scope="col" >S.no</th>
-            <th scope="col" onClick={() => sorting("title")}>State<i className="bi bi-chevron-down"></i></th>
-            <th scope="col" onClick={() => sorting("title")}>Country<i className="bi bi-chevron-down"></i></th>
+            <th scope="col" onClick={() => sorting("title")}>Domain<i className="bi bi-chevron-down"></i></th>
+            <th scope="col" onClick={() => sorting("title")}>Description<i className="bi bi-chevron-down"></i></th>
             <th scope="col" >Actions</th>
             <th scope="col" >Status</th>
 
@@ -215,11 +215,12 @@ export default function DomainList() {
                 <tr key={item._id}>
                     <th scope="row">{count * (pageNbr - 1) + index + 1}</th>
                     <td className="col-2">{item.title} </td>
-                    <td className="col-2">{item.countryTitle} </td>
+                    <td className="col-2">{item.description} </td>
+                    
 
 
                     <td >
-                        <Link className="btn btn-success m-2" to={`/StateEdit/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
+                        <Link className="btn btn-success m-2" to={`/domainEdit/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
 
                         <button className="btn btn-danger" onClick={() => {
                             setdeletId(item._id)
