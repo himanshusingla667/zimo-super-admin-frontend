@@ -16,9 +16,6 @@ import Button from '@mui/material/Button';
 import Switch from '@mui/material/Switch';
 
 
-import Switch from '@mui/material/Switch';
-
-
 const useStyle = makeStyles({
     table: {
         width: '70%',
@@ -50,7 +47,6 @@ export default function Designationlist() {
     //seacrh bar start
     const [searchTerm, setsearchTerm] = useState("")
     //seacrh bar ends
-    const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
     //Pagination starts 
     const [totalCount, settotalCount] = useState([]);
