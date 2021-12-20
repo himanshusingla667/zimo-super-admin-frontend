@@ -7,15 +7,14 @@ import axios from 'axios'
 import Spinner from '../../Components/spinner/Spinner';
 import * as Apis from '../../context/Api'
 import './designation.css';
-import Pagination from '@mui/material/Pagination';
-import TableContainer from '@mui/material/TableContainer';
-import Paper from '@mui/material/Paper';
 import Info from '../../context/Info';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import Button from '@mui/material/Button';
+import Switch from '@mui/material/Switch';
+
 
 
 const useStyle = makeStyles({
@@ -42,8 +41,9 @@ export default function Designationlist() {
     const [open, setOpen] = useState(false);
     const [srpage, setsrpage] = useState(1);
     const [spinner, setspinner] = useState(true)
+    const [clear, setClear] = useState(false);
 
-
+    const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
     //seacrh bar start
     const [searchTerm, setsearchTerm] = useState("")
@@ -94,62 +94,19 @@ export default function Designationlist() {
     const classes = useStyle();
 
 
+    const resetFilters = () => {
+
+        setsearchTerm('')
+        setdelStatus('false')
+        setstatus('true')
+        setClear(!clear)
+        }
 
     useEffect(
         () => {
-
             getData(1)
-
-        }, []
+        }, [clear]
     )
-
-    useEffect(
-        () => {
-            if (status === 'true') {
-
-
-                getData(1)
-            }
-
-        }, [status]
-    )
-    useEffect(
-        () => {
-            if (delStatus === 'false') {
-
-
-                getData(1)
-            }
-
-        }, [delStatus]
-    )
-    useEffect(
-        () => {
-            if (searchTerm === '') {
-
-
-                getData(1)
-            }
-
-        }, [searchTerm]
-    )
-
-
-
-    // const getStatus=()=>{
-    //     let statusData={
-    //         _id: Info.userInfo._id,
-    //         isActive: true
-    //     }
-
-    //     axios.post(Apis.desStatus(),statusData).then((response)=>{
-    //         console.log("cfdd",response.data.data);
-    //     })
-    // }
-
-
-
-
     const getData = (page) => {
         let data = {
             createdById: Info.userInfo._id,
@@ -172,6 +129,20 @@ export default function Designationlist() {
         })
 
     };
+    const activeStatus = (_id,toggle) => {
+        let activeData = {
+            _id: _id,
+            userId: Info.userInfo._id,
+            isActive: toggle
+
+        }
+        axios.post(Apis.desToggle(), activeData, { headers: { 'x-access-token': Info.token } }).then((response) => {
+            getData(1);
+            toast(response.data.message);
+
+        })
+    }
+
 
     const deleteUserData = (_id) => {
         axios.post(Apis.delDes(), {
@@ -205,18 +176,9 @@ export default function Designationlist() {
                             console.log(e.target.value)
                             setstatus(e.target.value)
                         }} className="form-select" aria-label="Default select example">
-                            {/* <option selected>Active status</option> */}
 
-                            {<option value="true"
-                            // onInputChange={() => {
-                            // setstatus("true")
-                            // console.log('status');
-                            // // getData(0)
-                            // }}
-                            >Active</option>}
-                            <option value="false"
-                            // 
-                            >
+                            {<option value="true">Active</option>}
+                            <option value="false" >
                                 In active</option>
                         </select>
                     </div>
@@ -242,123 +204,83 @@ export default function Designationlist() {
                     </div>
                     <div className='col-1'>
                         <span>
-                            <button className="btn btn-danger " onClick={() => {
-                                setsearchTerm('')
-                                setdelStatus('false')
-                                setstatus('true')
+                        <button className="btn btn-danger " onClick={resetFilters}> clear</button>
 
-                            }}> clear</button>
                         </span>
                     </div>
                 </div>
             </div>
 
-
-            <span>
-                {/* <div className="dropdown side" >
-                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        {active}
-                    </button>
-                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><Link className="dropdown-item" onClick={() => {
-                            setactive("true")
-                            // getData(0)
-                        }} >deleted</Link></li>
-                        <li><Link className="dropdown-item" onClick={() => {
-                            setactive("false")
-                            // getData(0)
-                        }}>not deleted</Link></li>
-                        <li><Link className="dropdown-item" >Something else here</Link></li>
-                    </ul>
-                </div> */}
-
-            </span><br />
-
             <Link to="/adddesignation" className=" btn btn-primary ">Add New Designation</Link>
-            <TableContainer component={Paper}>
+            {users.length > 0 ? (
 
-                {users.length > 0 ? (
+<table className="table">
+    <thead>
+        <tr>
+            <th scope="col" >S.no</th>
+            <th scope="col" onClick={() => sorting("title")}>State<i className="bi bi-chevron-down"></i></th>
+            <th scope="col" onClick={() => sorting("title")}>Country<i className="bi bi-chevron-down"></i></th>
+            <th scope="col" >Actions</th>
+            <th scope="col" >Status</th>
 
-                    <Table aria-label="simple table" >
-                        <TableHead>
-                            <TableRow >
+        </tr>
+    </thead>
+    <tbody>
+        {
+            users.map((item, index) => (
 
-                                <TableCell>S.No</TableCell>
+                <tr key={item._id}>
+                    <th scope="row">{Count * (srpage - 1) + index + 1}</th>
+                    <td className="col-2">{item.title} </td>
+                    <td className="col-2">{item.countryTitle} </td>
 
-                                <TableCell onClick={() => sorting("departmentTitle")}>Department<i className="bi bi-chevron-down"></i></TableCell>
 
-                                <TableCell onClick={() => sorting("departmentTitle")}>Designation<i className="bi bi-chevron-down"></i></TableCell>
+                    <td >
+                        <Link className="btn btn-success m-2" to={`/StateEdit/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
 
-                                <TableCell>Action</TableCell>
+                        <button className="btn btn-danger" onClick={() => {
+                            setdeletId(item._id)
+                            handleClickOpen()
+                        }}>
+                            <i className="bi bi-trash"></i>
+                        </button>
+                        <Dialog
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="draggable-dialog-title"
+                        >
 
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {
-                                users.map((user, index) => (
-                                    <TableRow key={index}>
+                            <DialogContent>
+                                <DialogContentText>
+                                    Are you sure to delete this information..?
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button autoFocus onClick={handleClose}>
+                                    No
+                                </Button>
+                                <Button onClick={() => { deleteUserData(deletId) }}>Yes </Button>
 
-                                        <TableCell>
-                                            {Count * (srpage - 1) + index + 1}
+                            </DialogActions>
+                        </Dialog>
+                    </td>
+                    <td>
+                        
+                        <Switch {...label} defaultChecked={item.isActive}
+                            onClick={(e) => {
+                                activeStatus(item._id,item.isActive)
 
-                                        </TableCell>
-                                        <TableCell>
-                                            {user.departmentTitle}
-                                        </TableCell>
-                                        <TableCell>
-                                            {user.title}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Link className="btn btn-success m-2" to={`/editdesignation/${user._id}`} ><i className="bi bi-pencil-square"></i></Link>
-                                            <button className="btn btn-danger" onClick={() => {
-                                                setdeletId(user._id)
-                                                handleClickOpen()
-                                            }}>
-                                                <i className="bi bi-trash"></i>
-                                            </button>
-                                            <Dialog
-                                                open={open}
-                                                onClose={handleClose}
-                                                aria-labelledby="draggable-dialog-title"
-                                            >
-                                                <DialogContent>
-                                                    <DialogContentText>
-                                                        Are you sure to delete this information..?
-                                                    </DialogContentText>
-                                                </DialogContent>
-                                                <DialogActions>
-                                                    <Button autoFocus onClick={handleClose}>
-                                                        No
-                                                    </Button>
-                                                    <Button onClick={() => { deleteUserData(deletId) }}>Yes </Button>
-                                                </DialogActions>
-                                            </Dialog>
-                                        </TableCell>
-                                    </TableRow>
-                                ))
+                            }}
+                        />
+                    </td>
+                </tr>
+            )
+            )}
 
-                            }
-                        </TableBody>
+    </tbody>
+</table>
+) : <div className='text-center mt-5'>No record found</div>}
 
-                    </Table>
-                ) : <div className='text-center mt-5'>No record found</div>}
-
-                {
-                    totalCount > Count ? (
-                        <div className=" d-flex justify-content-center m-4">
-                            <Pagination
-                                count={Math.ceil(totalCount / Count)}
-
-                                onChange={(event, value) => {
-                                    getData(value)
-                                }}
-                                shape="rounded"
-
-                            />
-                        </div>
-                    ) : null}
-
-            </TableContainer>
 
             <ToastContainer />
 

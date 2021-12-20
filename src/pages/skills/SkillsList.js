@@ -13,6 +13,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import Button from '@mui/material/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import Spinner from '../../Components/spinner/Spinner';
+import Switch from '@mui/material/Switch';
 
 export default function SkillsList() {
 
@@ -26,7 +27,9 @@ export default function SkillsList() {
     const [delStatus, setdelStatus] = useState('false')
     const [searchTerm, setsearchTerm] = useState("")
     const [spinner, setspinner] = useState(true)
+    const [clear, setClear] = useState(false);
 
+    const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -55,45 +58,18 @@ export default function SkillsList() {
 
     let count = 5;
 
+    const resetFilters = () => {
 
-    useEffect(() => {
-        getData(1)
-    }
-        , [])
-
-    useEffect(
-        () => {
-            if (status === 'true') {
-
-
-                getData(1)
-            }
-
-        }, [status]
-    )
-
+        setsearchTerm('')
+        setdelStatus('false')
+        setstatus('true')
+        setClear(!clear)
+        }
 
     useEffect(
         () => {
-            if (delStatus === 'false') {
-
-
-                getData(1)
-            }
-
-        }, [delStatus]
-    )
-
-
-    useEffect(
-        () => {
-            if (searchTerm === '') {
-
-
-                getData(1)
-            }
-
-        }, [searchTerm]
+            getData(1)
+        }, [clear]
     )
 
 
@@ -118,13 +94,25 @@ export default function SkillsList() {
         })
     }
 
+    const activeStatus = (_id,toggle) => {
+        let activeData = {
+            _id: _id,
+            userId: Info.userInfo._id,
+            isActive: toggle
 
+        }
+        axios.post(Apis.skillsStatus(), activeData, { headers: { 'x-access-token': Info.token } }).then((response) => {
+            getData(1);
+            toast(response.data.message);
+
+        })
+    }
     const deleteData = (_id) => {
         let delData = {
             _id: _id,
             userId: Info.userInfo._id,
-            createdById:Info.userInfo._id,
-            companyId:Info.userInfo.companyId
+            createdById: Info.userInfo._id,
+            companyId: Info.userInfo.companyId
 
         }
         axios.post(Apis.skillsDelete(), delData, { headers: { 'x-access-token': Info.token } }).then((response) => {
@@ -193,12 +181,7 @@ export default function SkillsList() {
                     </div>
                     <div className='col-1'>
                         <span>
-                            <button className="btn btn-danger " onClick={() => {
-                                setsearchTerm('')
-                                setdelStatus('false')
-                                setstatus('true')
-
-                            }}> clear</button>
+                        <button className="btn btn-danger " onClick={resetFilters}> clear</button>
                         </span>
                     </div>
                 </div>
@@ -216,34 +199,31 @@ export default function SkillsList() {
                     </Link>
                 </div>
             </div>
-            <TableContainer component={Paper}>
             {skills.length > 0 ? (
-                <Table area-aria-label='simple table'>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>
-                                S.no
-                            </TableCell>
-                            <TableCell onClick={() => sorting("title")}>
-                                Skills<i className="bi bi-chevron-down"></i>
-                            </TableCell>
-                            <TableCell>
-                                Action
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
+
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" >S.no</th>
+                            <th scope="col" onClick={() => sorting("title")}>Skills<i className="bi bi-chevron-down"></i></th>
+                            <th scope="col" >Actions</th>
+                            <th scope="col" >Status</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
                         {
                             skills.map((item, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>
-                                        {count * (pageNbr - 1) + index + 1}
-                                    </TableCell>
-                                    <TableCell>
-                                        {item.title}
-                                    </TableCell>
-                                    <TableCell>
+
+                                <tr key={item._id}>
+                                    <th scope="row">{count * (pageNbr - 1) + index + 1}</th>
+                                    <td className="col-2">{item.title} </td>
+                                    <td className="col-2">{item.countryTitle} </td>
+
+
+                                    <td >
                                         <Link className="btn btn-success m-2" to={`/editSkills/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
+
                                         <button className="btn btn-danger" onClick={() => {
                                             setdeletId(item._id)
                                             handleClickOpen()
@@ -255,6 +235,7 @@ export default function SkillsList() {
                                             onClose={handleClose}
                                             aria-labelledby="draggable-dialog-title"
                                         >
+
                                             <DialogContent>
                                                 <DialogContentText>
                                                     Are you sure to delete this information..?
@@ -264,31 +245,39 @@ export default function SkillsList() {
                                                 <Button autoFocus onClick={handleClose}>
                                                     No
                                                 </Button>
-                                                <Button onClick={() => { deleteData(deletId) }}>
-                                                    Yes
-                                                </Button>
+                                                <Button onClick={() => { deleteData(deletId) }}>Yes </Button>
+
                                             </DialogActions>
                                         </Dialog>
-                                    </TableCell>
-                                </TableRow>
-                            ))
-                        }
-                    </TableBody>
-                </Table>
-                ) : <div className='text-center mt-5'>No record found</div>}
-                {
-                    totalcount > count ? (
-                        <div className=" d-flex justify-content-center m-4">
-                            <Pagination
-                                count={Math.ceil(totalcount / count)}
-                                onChange={(event, value) => {
-                                    getData(value)
-                                }}
-                                shape="rounded"
-                            />
-                        </div>
-                    ) : null}
-            </TableContainer>
+                                    </td>
+                                    <td>
+
+                                        <Switch {...label} defaultChecked={item.isActive}
+                                            onClick={(e) => {
+                                                activeStatus(item._id, item.isActive)
+
+                                            }}
+                                        />
+                                    </td>
+                                </tr>
+                            )
+                            )}
+
+                    </tbody>
+                </table>
+            ) : <div className='text-center mt-5'>No record found</div>}
+            {
+                totalcount > count ? (
+                    <div className=" d-flex justify-content-center m-4">
+                        <Pagination
+                            count={Math.ceil(totalcount / count)}
+                            onChange={(event, value) => {
+                                getData(value)
+                            }}
+                            shape="rounded"
+                        />
+                    </div>
+                ) : null}
             <ToastContainer />
         </div>
     )

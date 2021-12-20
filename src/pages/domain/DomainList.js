@@ -13,6 +13,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import Button from '@mui/material/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import Spinner from '../../Components/spinner/Spinner';
+import Switch from '@mui/material/Switch';
 
 
 export default function DomainList() {
@@ -27,7 +28,9 @@ export default function DomainList() {
     const [delStatus, setdelStatus] = useState('false')
     const [searchTerm, setsearchTerm] = useState("")
     const [spinner, setspinner] = useState(true)
+    const [clear, setClear] = useState(false);
 
+    const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -57,45 +60,18 @@ export default function DomainList() {
 
     let count = 5;
 
+    const resetFilters = () => {
 
-    useEffect(() => {
-        getData(1)
-    }
-        , [])
-
-    useEffect(
-        () => {
-            if (status === 'true') {
-
-
-                getData(1)
-            }
-
-        }, [status]
-    )
-
+        setsearchTerm('')
+        setdelStatus('false')
+        setstatus('true')
+        setClear(!clear)
+        }
 
     useEffect(
         () => {
-            if (delStatus === 'false') {
-
-
-                getData(1)
-            }
-
-        }, [delStatus]
-    )
-
-
-    useEffect(
-        () => {
-            if (searchTerm === '') {
-
-
-                getData(1)
-            }
-
-        }, [searchTerm]
+            getData(1)
+        }, [clear]
     )
 
 
@@ -120,7 +96,19 @@ export default function DomainList() {
         })
     }
 
+    const activeStatus = (_id,toggle) => {
+        let activeData = {
+            _id: _id,
+            userId: Info.userInfo._id,
+            isActive: toggle
 
+        }
+        axios.post(Apis.domainToggle(), activeData, { headers: { 'x-access-token': Info.token } }).then((response) => {
+            getData(1);
+            toast(response.data.message);
+
+        })
+    }
     const deleteData = (_id) => {
         let delData = {
             _id: _id,
@@ -193,12 +181,7 @@ export default function DomainList() {
                     </div>
                     <div className='col-1'>
                         <span>
-                            <button className="btn btn-danger " onClick={() => {
-                                setsearchTerm('')
-                                setdelStatus('false')
-                                setstatus('true')
-
-                            }}> clear</button>
+                        <button className="btn btn-danger " onClick={resetFilters}> clear</button>
                         </span>
                     </div>
                 </div>
@@ -212,72 +195,74 @@ export default function DomainList() {
                     </Link>
                 </div>
             </div>
-            <TableContainer component={Paper}>
             {domain.length > 0 ? (
-                <Table area-aria-label='simple table'>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>
-                                S.no
-                            </TableCell>
-                            <TableCell onClick={() => sorting("title")}>
-                                Domain<i className="bi bi-chevron-down"></i>
-                            </TableCell>
-                            <TableCell onClick={() => sorting("title")}>
-                                Description<i className="bi bi-chevron-down"></i>
-                            </TableCell>
-                            <TableCell>
-                                Action
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {
-                            domain.map((item, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>
-                                        {count * (pageNbr - 1) + index + 1}
-                                    </TableCell>
-                                    <TableCell>
-                                        {item.title}
-                                    </TableCell>
-                                    <TableCell>
-                                        {item.description}
-                                    </TableCell>
-                                    <TableCell>
-                                        <Link className="btn btn-success m-2" to={`/domainEdit/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
-                                        <button className="btn btn-danger" onClick={() => {
-                                            setdeletId(item._id)
-                                            handleClickOpen()
-                                        }}>
-                                            <i className="bi bi-trash"></i>
-                                        </button>
-                                        <Dialog
-                                            open={open}
-                                            onClose={handleClose}
-                                            aria-labelledby="draggable-dialog-title"
-                                        >
-                                            <DialogContent>
-                                                <DialogContentText>
-                                                    Are you sure to delete this information..?
-                                                </DialogContentText>
-                                            </DialogContent>
-                                            <DialogActions>
-                                                <Button autoFocus onClick={handleClose}>
-                                                    No
-                                                </Button>
-                                                <Button onClick={() => { deleteData(deletId) }}>
-                                                    Yes
-                                                </Button>
-                                            </DialogActions>
-                                        </Dialog>
-                                    </TableCell>
-                                </TableRow>
-                            ))
-                        }
-                    </TableBody>
-                </Table>
-                 ) : <div className='text-center mt-5'>No record found</div>}
+
+<table className="table">
+    <thead>
+        <tr>
+            <th scope="col" >S.no</th>
+            <th scope="col" onClick={() => sorting("title")}>State<i className="bi bi-chevron-down"></i></th>
+            <th scope="col" onClick={() => sorting("title")}>Country<i className="bi bi-chevron-down"></i></th>
+            <th scope="col" >Actions</th>
+            <th scope="col" >Status</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {
+            domain.map((item, index) => (
+
+                <tr key={item._id}>
+                    <th scope="row">{count * (pageNbr - 1) + index + 1}</th>
+                    <td className="col-2">{item.title} </td>
+                    <td className="col-2">{item.countryTitle} </td>
+
+
+                    <td >
+                        <Link className="btn btn-success m-2" to={`/StateEdit/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
+
+                        <button className="btn btn-danger" onClick={() => {
+                            setdeletId(item._id)
+                            handleClickOpen()
+                        }}>
+                            <i className="bi bi-trash"></i>
+                        </button>
+                        <Dialog
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="draggable-dialog-title"
+                        >
+
+                            <DialogContent>
+                                <DialogContentText>
+                                    Are you sure to delete this information..?
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button autoFocus onClick={handleClose}>
+                                    No
+                                </Button>
+                                <Button onClick={() => { deleteData(deletId) }}>Yes </Button>
+
+                            </DialogActions>
+                        </Dialog>
+                    </td>
+                    <td>
+                        
+                        <Switch {...label} defaultChecked={item.isActive}
+                            onClick={(e) => {
+                                activeStatus(item._id,item.isActive)
+
+                            }}
+                        />
+                    </td>
+                </tr>
+            )
+            )}
+
+    </tbody>
+</table>
+) : <div className='text-center mt-5'>No record found</div>}
                 {
                     totalcount>count ?(
                 <div className=" d-flex justify-content-center m-4">
@@ -290,7 +275,6 @@ export default function DomainList() {
                     />
                 </div>
                 ): null}
-            </TableContainer>
             <ToastContainer />
         </div>
     )

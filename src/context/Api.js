@@ -14,7 +14,8 @@ export let deslist = () => enviornment.baseUrl + '/api/v1/designation/list'
 export let editdes = () => enviornment.baseUrl + '/api/v1/designation/update'
 export let detailDes = () => enviornment.baseUrl + '/api/v1/designation/details'
 export let delDes = () =>enviornment.baseUrl + '/api/v1/designation/delete' 
-export let desStatus = () =>enviornment.baseUrl + '/api/v1/designation/changeStatus'
+export let desToggle = () =>enviornment.baseUrl + '/api/v1/designation/changeStatus'
+
 
 
 // Department api
@@ -23,6 +24,7 @@ export let departmentadd = () =>  enviornment.baseUrl+'/api/v1/department/add'
 export let departmentlist = () => enviornment.baseUrl+'/api/v1/department/list'
 export let departmentDelet = () =>  enviornment.baseUrl+'/api/v1/department/delete'
 export let departmentdetails = () =>  enviornment.baseUrl+'/api/v1/department/details'
+export let departmentToggle= () =>  enviornment.baseUrl+'/api/v1/department/changeStatus'
 
 
 
@@ -40,6 +42,7 @@ export let tecList = () => enviornment.baseUrl + '/api/v1/technology/list'
 export let tecEdit = () => enviornment.baseUrl + '/api/v1/technology/edit'
 export let tecDelete = () => enviornment.baseUrl + '/api/v1/technology/delete'
 export let tecDetails = () => enviornment.baseUrl + '/api/v1/technology/details'
+export let tecToggle = () => enviornment.baseUrl + '/api/v1/technology/changeStatus'
 
 
 // domain api
@@ -48,6 +51,7 @@ export let domainList = () => enviornment.baseUrl + '/api/v1/domain/list'
 export let domainDelete = () => enviornment.baseUrl + '/api/v1/domain/delete'
 export let domainEdit = () => enviornment.baseUrl + '/api/v1/domain/edit'
 export let domainDetails = () => enviornment.baseUrl + '/api/v1/domain/details'
+export let domainToggle = () => enviornment.baseUrl + '/api/v1/domain/changeStatus'
 
 
 // comapny api

@@ -25,14 +25,12 @@ export default function Statelist() {
     const [deletId, setdeletId] = useState('')
     const [open, setOpen] = useState(false);
     const [pageNbr, setpageNbr] = useState()
-    // 
     const [delStatus, setdelStatus] = useState('false')
     const [status, setstatus] = useState("true")
     const [searchTerm, setsearchTerm] = useState("")
-    // const [toggle, settoggle] = useState(true)
-    // const [checked, setChecked] = React.useState(true);
-
-
+    const [clear, setClear] = useState(false);
+    let Count = 5
+    const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 
     const handleClickOpen = () => {
@@ -42,10 +40,6 @@ export default function Statelist() {
     const handleClose = () => {
         setOpen(false);
     };
-
-
-    let Count = 5
-
     const sorting = (col) => {
         if (sortOrder === "asc") {
             const sorted = [...stateList].sort((a, b) =>
@@ -62,44 +56,19 @@ export default function Statelist() {
             setsortOrder("asc")
         }
     }
+    const resetFilters = () => {
+
+        setsearchTerm('')
+        setdelStatus('false')
+        setstatus('true')
+        setClear(!clear)
+        }
 
     useEffect(
         () => {
-
             getData(1)
-
-        }, []
+        }, [clear]
     )
-
-    useEffect(
-        () => {
-            if (status === 'true') {
-
-
-                getData(1)
-            }
-
-        }, [status]
-    )
-    useEffect(
-        () => {
-            if (delStatus === 'false') {
-
-
-                getData(1)
-            }
-
-        }, [delStatus]
-    )
-    useEffect(
-        () => {
-            if (searchTerm === '') {
-                getData(1)
-            }
-
-        }, [searchTerm]
-    )
-    
 
     const getData = (page) => {
         let data = {
@@ -121,10 +90,7 @@ export default function Statelist() {
         })
 
     };
-    // const handleChange = (event) => {
-    //     setChecked(event.target.checked);
-    // };
-    const label = { inputProps: { 'aria-label': 'Switch demo' } };
+ 
 
     const activeStatus = (_id,toggle) => {
         let activeData = {
@@ -174,7 +140,6 @@ export default function Statelist() {
                             console.log(e.target.value)
                             setstatus(e.target.value)
                         }} className="form-select" aria-label="Default select example">
-                            {/* <option selected>Active status</option> */}
 
                             {<option value="true"
 
@@ -197,7 +162,6 @@ export default function Statelist() {
                         <span>
                             <button type="submit" className="btn btn-primary " onClick={() => {
                                 if (searchTerm || status || delStatus) {
-                                    // console.log(status);
                                     getData(1)
                                 }
 
@@ -205,12 +169,7 @@ export default function Statelist() {
                     </div>
                     <div className='col-1'>
                         <span>
-                            <button className="btn btn-danger " onClick={() => {
-                                setsearchTerm('')
-                                setdelStatus('false')
-                                setstatus('true')
-
-                            }}> clear</button>
+                        <button className="btn btn-danger " onClick={resetFilters}> clear</button>
                         </span>
                     </div>
                     <div className="col-1">
@@ -273,57 +232,15 @@ export default function Statelist() {
 
                                                 </DialogActions>
                                             </Dialog>
-                                        </td>item.isActive
+                                        </td>
                                         <td>
-                                            {/* <form>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked 
-                                            onClick={()=>{
-                                                activeStatus(item._id)
-                                                if(toggle===false){
-                                                settoggle(true)
-                                                }
-                                                else if(toggle===true){
-                                                    settoggle(false)
-                                                }
-                                            }}  
-                                            ></input>
-                                                
-                                        </div>
-                                        </form> */}
+                                            
                                             <Switch {...label} defaultChecked={item.isActive}
                                                 onClick={(e) => {
-                                                    // console.log(e.target.checked);
                                                     activeStatus(item._id,item.isActive)
 
-                                                    // if (toggle === false) {
-                                                    //     settoggle(true)
-                                                    //     activeStatus(item._id)
-                                                    // }
-                                                    // else if (toggle === true) {
-                                                    //     settoggle(false)
-                                                    //     activeStatus(item._id)
-
-                                                    // }
                                                 }}
                                             />
-
-                                            {/* <Switch
-                                                checked={checked}
-                                                onChange={handleChange}
-                                                inputProps={item._id }
-                                                onClick={()=>{
-                                                    activeStatus(item._id)
-                                                    if(toggle===false){
-                                                    settoggle(true)
-                                                    }
-                                                    else if(toggle===true){
-                                                        settoggle(false)
-                                                    }
-                                                    
-    
-                                                }}
-                                            /> */}
                                         </td>
                                     </tr>
                                 )

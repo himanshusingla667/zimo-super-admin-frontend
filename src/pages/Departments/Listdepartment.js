@@ -15,6 +15,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import Button from '@mui/material/Button';
+import Switch from '@mui/material/Switch';
+
 // delete mui button close
 
 export default function Listdepartment() {
@@ -26,10 +28,12 @@ export default function Listdepartment() {
     const [open, setOpen] = useState(false);
     const [status, setstatus] = useState("true")
     const [delStatus, setdelStatus] = useState('false')
-    
     const [searchTerm, setsearchTerm] = useState("")
     const [srpage, setsrpage] = useState(1);
+    const [clear, setClear] = useState(false);
+
     
+    const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 
     const handleClickOpen = () => {
@@ -40,7 +44,6 @@ export default function Listdepartment() {
         setOpen(false);
     };
 
-    // let key = JSON.parse(localStorage.getItem('userinfo'))._id
     let Count = 5
 
     const sorting = (col) => {
@@ -59,45 +62,18 @@ export default function Listdepartment() {
             setsortOrder("asc")
         }
     }
- 
-   
+    const resetFilters = () => {
 
-   
-    useEffect(
-        () => {
-
-                getData(1)
-           
-        }, []
-    )
+        setsearchTerm('')
+        setdelStatus('false')
+        setstatus('true')
+        setClear(!clear)
+        }
 
     useEffect(
         () => {
-            if(status === 'true' ){
-               
-
-                getData(1)
-            }
-           
-        }, [status]
-    )
-    useEffect(
-        () => {
-            if(delStatus === 'false'){
-               
-
-                getData(1)
-            }
-           
-        }, [delStatus]
-    )
-    useEffect(
-        () => {
-            if(searchTerm === ''){
-                getData(1)
-            }
-           
-        }, [searchTerm]
+            getData(1)
+        }, [clear]
     )
 
 
@@ -122,7 +98,19 @@ export default function Listdepartment() {
             
         })
     };
+    const activeStatus = (_id,toggle) => {
+        let activeData = {
+            _id: _id,
+            userId: Info.userInfo._id,
+            isActive: toggle
 
+        }
+        axios.post(Apis.departmentToggle(), activeData, { headers: { 'x-access-token': Info.token } }).then((response) => {
+            getData(1);
+            toast(response.data.message);
+
+        })
+    }
     const deleteTitle = (_id) => {
 
         axios.post(Apis.departmentDelet(), {
@@ -190,12 +178,7 @@ export default function Listdepartment() {
                     </div>
                     <div className='col-1'>
                         <span>
-                            <button className="btn btn-danger " onClick={() => {
-                                setsearchTerm('')
-                                setdelStatus('false')
-                                setstatus('true')
-                               
-                            }}> clear</button>
+                        <button className="btn btn-danger " onClick={resetFilters}> clear</button>
                         </span>
                     </div>
                     <div className="col-1">
@@ -254,6 +237,13 @@ export default function Listdepartment() {
                                             </DialogActions>
                                         </Dialog>
                                     </td>
+                                    <td>
+                                         <Switch {...label} defaultChecked={item.isActive}
+                                             onClick={(e) => {
+                                                 activeStatus(item._id,item.isActive)
+                                             }}
+                                         />
+                                     </td>
                                 </tr>
                             )
                             )}
