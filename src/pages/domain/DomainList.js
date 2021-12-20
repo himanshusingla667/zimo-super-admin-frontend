@@ -1,5 +1,4 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
-import Paper from '@mui/material/Paper';
+
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import Info from '../../context/Info';
@@ -112,7 +111,9 @@ export default function DomainList() {
     const deleteData = (_id) => {
         let delData = {
             _id: _id,
-            userId: Info.userInfo._id
+            userId: Info.userInfo._id,
+            createdById: Info.userInfo._id,
+            companyId: Info.userInfo.companyId
 
         }
         axios.post(Apis.domainDelete(), delData, { headers: { 'x-access-token': Info.token } }).then((response) => {
@@ -252,7 +253,7 @@ export default function DomainList() {
                         
                         <Switch {...label} defaultChecked={item.isActive}
                             onClick={(e) => {
-                                activeStatus(item._id,item.isActive)
+                                activeStatus(item._id, item.isActive)
 
                             }}
                         />

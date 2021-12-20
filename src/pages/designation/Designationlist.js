@@ -1,4 +1,4 @@
-import { makeStyles, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
+
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
@@ -19,19 +19,7 @@ import Pagination from '@mui/material/Pagination';
 
 
 
-const useStyle = makeStyles({
-    table: {
-        width: '70%',
-        margin: '10px 0 0 100px',
-        fontSize: '50'
-    },
-    thead: {
-        '& > *': {
-            background: '#000000',
-            color: '#ffffff'
-        }
-    }
-})
+
 export default function Designationlist() {
 
     const [users, setUsers] = useState([]);
@@ -99,7 +87,7 @@ export default function Designationlist() {
 
 
 
-    const classes = useStyle();
+    
 
 
     
@@ -161,7 +149,7 @@ export default function Designationlist() {
 
     return (
 
-        <div className={classes.table}>
+        <div className='container'>
             {
                 spinner && <Spinner />
             }
@@ -181,8 +169,8 @@ export default function Designationlist() {
                             setstatus(e.target.value)
                         }} className="form-select" aria-label="Default select example">
 
-                            {<option value="true">Active</option>}
-                            <option value="false" >
+                            {<option value={users.isActive===true}>Active</option>}
+                            <option value={users.isActive===false} >
                                 In active</option>
                         </select>
                     </div>
