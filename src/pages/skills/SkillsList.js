@@ -56,7 +56,7 @@ export default function SkillsList() {
         }
     }
 
-    let count = 5;
+    let count = 4;
 
     const resetFilters = () => {
 

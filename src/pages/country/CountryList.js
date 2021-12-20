@@ -64,7 +64,7 @@ export default function CountryList() {
         }
     }
     
-    let count = 5;
+    let count = 4;
     
 
     useEffect(
@@ -210,7 +210,7 @@ export default function CountryList() {
     <thead>
         <tr>
             <th scope="col" >S.no</th>
-            <th scope="col" onClick={() => sorting("title")}>State<i className="bi bi-chevron-down"></i></th>
+            
             <th scope="col" onClick={() => sorting("title")}>Country<i className="bi bi-chevron-down"></i></th>
             <th scope="col" >Actions</th>
             <th scope="col" >Status</th>
@@ -224,9 +224,9 @@ export default function CountryList() {
                 <tr key={item._id}>
                     <th scope="row">{count * (pageNbr - 1) + index + 1}</th>
                     <td className="col-2">{item.title} </td>
-                    <td className="col-2">{item.countryTitle} </td>
+                    
                     <td >
-                        <Link className="btn btn-success m-2" to={`/StateEdit/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
+                        <Link className="btn btn-success m-2" to={`/editCountry/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
 
                         <button className="btn btn-danger" onClick={() => {
                             setdeletId(item._id)

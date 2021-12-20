@@ -14,6 +14,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import Button from '@mui/material/Button';
 import Switch from '@mui/material/Switch';
+import Pagination from '@mui/material/Pagination';
+
+
 
 
 const useStyle = makeStyles({
@@ -47,6 +50,7 @@ export default function Designationlist() {
     //seacrh bar start
     const [searchTerm, setsearchTerm] = useState("")
     //seacrh bar ends
+    
 
     //Pagination starts 
     const [totalCount, settotalCount] = useState([]);
@@ -98,13 +102,7 @@ export default function Designationlist() {
     const classes = useStyle();
 
 
-    const resetFilters = () => {
-
-        setsearchTerm('')
-        setdelStatus('false')
-        setstatus('true')
-        setClear(!clear)
-        }
+    
 
     useEffect(
         () => {
@@ -148,19 +146,7 @@ export default function Designationlist() {
     }
 
 
-    const activeStatus = (_id, toggle) => {
-        let activeData = {
-            _id: _id,
-            userId: Info.userInfo._id,
-            isActive: toggle
-
-        }
-        axios.post(Apis.desToggle(), activeData, { headers: { 'x-access-token': Info.token } }).then((response) => {
-            getData(1);
-            toast(response.data.message);
-
-        })
-    }
+    
 
     const deleteUserData = (_id) => {
         axios.post(Apis.delDes(), {
@@ -236,8 +222,8 @@ export default function Designationlist() {
     <thead>
         <tr>
             <th scope="col" >S.no</th>
-            <th scope="col" onClick={() => sorting("title")}>State<i className="bi bi-chevron-down"></i></th>
-            <th scope="col" onClick={() => sorting("title")}>Country<i className="bi bi-chevron-down"></i></th>
+            <th scope="col" onClick={() => sorting("title")}>Department<i className="bi bi-chevron-down"></i></th>
+            <th scope="col" onClick={() => sorting("title")}>Designation<i className="bi bi-chevron-down"></i></th>
             <th scope="col" >Actions</th>
             <th scope="col" >Status</th>
 
@@ -249,12 +235,12 @@ export default function Designationlist() {
 
                 <tr key={item._id}>
                     <th scope="row">{Count * (srpage - 1) + index + 1}</th>
+                    <td className="col-2">{item.departmentTitle} </td>
                     <td className="col-2">{item.title} </td>
-                    <td className="col-2">{item.countryTitle} </td>
 
 
                     <td >
-                        <Link className="btn btn-success m-2" to={`/StateEdit/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
+                        <Link className="btn btn-success m-2" to={`/editdesignation/${item._id}`}  ><i className="bi bi-pencil-square"></i></Link>
 
                         <button className="btn btn-danger" onClick={() => {
                             setdeletId(item._id)
@@ -298,6 +284,18 @@ export default function Designationlist() {
     </tbody>
 </table>
 ) : <div className='text-center mt-5'>No record found</div>}
+{
+                    totalCount>Count ?(
+                <div className=" d-flex justify-content-center m-4">
+                    <Pagination
+                        count={Math.ceil(totalCount / Count)}
+                        onChange={(event, value) => {
+                            getData(value)
+                        }}
+                        shape="rounded"
+                    />
+                </div>
+                ): null}
 
 
             <ToastContainer />
